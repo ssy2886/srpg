@@ -1,0 +1,98 @@
+{
+  "_comment": "角色数据骨架。growth_modifier 为在职业成长率上的个人加成（FE 式）；personal_skill 为人物专属；supports 定义两两关系与解锁所需并肩回合。",
+  "characters": [
+    {
+      "id": "lyra",
+      "name": "莉拉",
+      "title": "流亡的公主",
+      "is_lord": true,
+      "base_class": "lord",
+      "personal_skill": "royal_grace",
+      "personal_skills": ["swift_reaction"],
+      "base_stats": { "lv": 1, "hp": 22, "str": 8, "mag": 4, "skl": 9, "spd": 9, "lck": 12, "def": 6, "res": 4, "con": 8 },
+      "growth_modifier": { "hp": 0, "str": 0, "mag": 0, "skl": 0, "spd": 0, "lck": 10, "def": 0, "res": 0 },
+      "weapon_ranks": { "sword": "D", "lance": "E" },
+      "supports": [
+        { "with": "garrett", "ranks": ["C", "B", "A"], "unlock_turns": [15, 40, 80] },
+        { "with": "mira", "ranks": ["C", "B", "A"], "unlock_turns": [15, 40, 80] }
+      ],
+      "portrait": "res://assets/portraits/lyra.jpg",
+      "battle_sprite": "res://assets/sprites/units/lyra.png",
+      "background": "王国陷落后流亡的公主，背负复国使命，外柔内刚。",
+      "support_lines": {
+        "C_garrett": "（示例）莉拉：你愿意留下来，我很庆幸。",
+        "B_garrett": "（示例）莉拉：有你在，我敢往人堆里冲了。",
+        "A_garrett": "（示例）莉拉：若王座只剩我一人，你也会陪我到最后吧？"
+      }
+    },
+    {
+      "id": "garrett",
+      "name": "加勒特",
+      "title": "流浪剑客",
+      "is_lord": false,
+      "base_class": "mercenary",
+      "personal_skill": "keen_edge",
+      "personal_skills": ["armor_pierce"],
+      "base_stats": { "lv": 1, "hp": 24, "str": 9, "mag": 2, "skl": 10, "spd": 11, "lck": 8, "def": 7, "res": 3, "con": 9 },
+      "growth_modifier": { "hp": 0, "str": 5, "mag": 0, "skl": 5, "spd": 5, "lck": 0, "def": 0, "res": 0 },
+      "weapon_ranks": { "sword": "D" },
+      "supports": [
+        { "with": "lyra", "ranks": ["C", "B", "A"], "unlock_turns": [15, 40, 80] }
+      ],
+      "portrait": "res://assets/portraits/garrett.jpg",
+      "battle_sprite": "res://assets/sprites/units/garrett.png",
+      "background": "失去雇主的佣兵，因欣赏莉拉的意志而留下同行。",
+      "support_lines": {}
+    },
+    {
+      "id": "mira",
+      "name": "米拉",
+      "title": "森林贤者之徒",
+      "is_lord": false,
+      "base_class": "mage",
+      "personal_skill": "warding_light",
+      "base_stats": { "lv": 1, "hp": 18, "str": 2, "mag": 9, "skl": 8, "spd": 8, "lck": 9, "def": 3, "res": 8, "con": 5 },
+      "growth_modifier": { "hp": 0, "str": 0, "mag": 5, "skl": 0, "spd": 0, "lck": 0, "def": 0, "res": 5 },
+      "weapon_ranks": { "anima": "D" },
+      "supports": [
+        { "with": "lyra", "ranks": ["C", "B", "A"], "unlock_turns": [15, 40, 80] }
+      ],
+      "portrait": "res://assets/portraits/mira.jpg",
+      "battle_sprite": "res://assets/sprites/units/mira.png",
+      "background": "出身隐秘教团的少女，怀抱对世界的疑问踏上旅途。",
+      "support_lines": {}
+    },
+    {
+      "id": "seraphina",
+      "name": "塞拉菲娜",
+      "title": "月之咏唱者",
+      "is_lord": false,
+      "base_class": "sage",
+      "personal_skill": "silent_cast",
+      "base_stats": { "lv": 3, "hp": 22, "str": 3, "mag": 13, "skl": 10, "spd": 11, "lck": 10, "def": 5, "res": 11, "con": 6 },
+      "growth_modifier": { "hp": 5, "str": 0, "mag": 10, "skl": 5, "spd": 5, "lck": 0, "def": 0, "res": 5 },
+      "weapon_ranks": { "anima": "B", "light": "C", "staff": "D" },
+      "supports": [],
+      "portrait": "res://assets/portraits/seraphina.jpg",
+      "battle_sprite": "res://assets/sprites/units/seraphina.png",
+      "background": "隐秘教团出身的才女，掌握失传的月之魔法，因怜悯莉拉的处境而相助。",
+      "support_lines": {}
+    },
+    {
+      "id": "rook",
+      "name": "鲁克",
+      "title": "投诚的斥候",
+      "is_lord": false,
+      "base_class": "brigand",
+      "personal_skill": "",
+      "base_stats": { "lv": 1, "hp": 20, "str": 7, "mag": 2, "skl": 8, "spd": 8, "lck": 8, "def": 6, "res": 3, "con": 8 },
+      "growth_modifier": { "hp": 0, "str": 0, "mag": 0, "skl": 0, "spd": 0, "lck": 0, "def": 0, "res": 0 },
+      "weapon_ranks": { "axe": "D" },
+      "supports": [],
+      "portrait": "",
+      "battle_sprite": "",
+      "background": "断桥之战被俘后归顺的敌方斥候，使斧，求生欲强。抉择点『收编入队』可招募。",
+      "support_lines": {}
+    }
+  ]
+}

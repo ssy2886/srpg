@@ -1,0 +1,13 @@
+{
+  "_comment": "武器数据骨架。triangle: physical(剑>斧>枪>剑) / magic(理>光>暗>理) / none(弓/杖等独立)。rank_required 对应武器等级 E~S。range 为 [最小,最大] 攻击距离。",
+  "weapons": [
+    { "id": "iron_sword", "name": "铁剑", "type": "sword", "triangle": "physical", "might": 5, "hit": 90, "crit": 0, "weight": 5, "range": [1, 1], "rank_required": "E", "rank_exp": 1 },
+    { "id": "steel_sword", "name": "钢剑", "type": "sword", "triangle": "physical", "might": 8, "hit": 75, "crit": 0, "weight": 10, "range": [1, 1], "rank_required": "D", "rank_exp": 1 },
+    { "id": "iron_axe", "name": "铁斧", "type": "axe", "triangle": "physical", "might": 7, "hit": 75, "crit": 0, "weight": 8, "range": [1, 1], "rank_required": "E", "rank_exp": 1 },
+    { "id": "iron_lance", "name": "铁枪", "type": "lance", "triangle": "physical", "might": 6, "hit": 80, "crit": 0, "weight": 7, "range": [1, 1], "rank_required": "E", "rank_exp": 1 },
+    { "id": "short_bow", "name": "短弓", "type": "bow", "triangle": "none", "might": 6, "hit": 80, "crit": 0, "weight": 6, "range": [2, 2], "rank_required": "E", "rank_exp": 1 },
+    { "id": "fire_tome", "name": "炎之书", "type": "anima", "triangle": "magic", "might": 7, "hit": 85, "crit": 0, "weight": 4, "range": [1, 2], "rank_required": "D", "rank_exp": 1 },
+    { "id": "light_tome", "name": "光之书", "type": "light", "triangle": "magic", "might": 6, "hit": 85, "crit": 0, "weight": 4, "range": [1, 2], "rank_required": "D", "rank_exp": 1 },
+    { "id": "heal_staff", "name": "治疗杖", "type": "staff", "triangle": "none", "might": 0, "hit": 100, "crit": 0, "weight": 3, "range": [1, 2], "rank_required": "E", "rank_exp": 1, "heal": true }
+  ]
+}

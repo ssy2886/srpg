@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/BattleController.gd" id="1_BC"]
+[ext_resource type="PackedScene" path="res://scenes/Unit.tscn" id="2_UN"]
+
+[node name="BattleRoot" type="Node2D"]
+script = ExtResource("1_BC")
+tile_map = NodePath("TileMap")
+unit_scene = ExtResource("2_UN")
+
+[node name="TileMap" type="TileMap" parent="."]

@@ -1,0 +1,27 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="剑与魔法战旗"
+run/main_scene="res://scenes/TitleScreen.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+
+[autoload]
+
+DataManager="*res://src/DataManager.gd"
+Campaign="*res://src/Campaign.gd"
+SaveManager="*res://src/SaveManager.gd"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=640
+window/stretch/mode="canvas_items"

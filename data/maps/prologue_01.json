@@ -1,0 +1,26 @@
+{
+  "_comment": "示例战斗地图。grid 为地形 id 二维数组（行×列，10×8）；units 为初始单位；objective 为目标。坐标 pos 为 [列x, 行y]，从 0 开始。",
+  "id": "prologue_01",
+  "name": "逃亡之夜",
+  "width": 10,
+  "height": 8,
+  "grid": [
+    ["plain", "plain", "plain", "forest", "plain", "plain", "mountain", "plain", "plain", "forest"],
+    ["plain", "forest", "plain", "plain", "plain", "wall",  "plain",    "plain", "plain", "forest"],
+    ["plain", "plain", "plain", "plain", "plain", "plain", "plain",    "mountain", "plain", "plain"],
+    ["plain", "plain", "forest", "plain", "plain", "plain", "plain",    "plain", "plain", "plain"],
+    ["plain", "plain", "plain", "plain", "mountain", "plain", "forest", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "wall", "plain", "plain", "plain",    "plain", "plain", "plain"],
+    ["plain", "plain", "plain", "plain", "plain", "forest", "plain",   "mountain", "plain", "plain"],
+    ["plain", "plain", "forest", "plain", "plain", "plain", "plain",    "plain", "plain", "plain"]
+  ],
+  "units": [
+    { "char_id": "lyra",    "team": "player", "pos": [1, 3], "lv": 1, "items": ["master_seal"] },
+    { "char_id": "garrett", "team": "player", "pos": [1, 4], "lv": 1 },
+    { "char_id": "mira",    "team": "player", "pos": [2, 4], "lv": 1 },
+    { "char_id": "bandit_01", "team": "enemy", "pos": [8, 3], "lv": 2, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_02", "team": "enemy", "pos": [8, 4], "lv": 2, "class": "brigand", "weapon": "iron_axe" }
+  ],
+  "objective": { "type": "rout", "description": "击败所有敌人" },
+  "reward": { "flag": "prologue_done" }
+}

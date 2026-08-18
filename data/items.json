@@ -1,0 +1,17 @@
+{
+  "_comment": "道具/消耗品数据骨架。promote 类为转职道具，单位 inventory 含其 id 且满足等级即可转职。",
+  "items": [
+    {
+      "id": "master_seal",
+      "name": "转职圣印",
+      "type": "promote",
+      "desc": "持有时，等级达到 10 级可将当前职业转职为进阶职（重置为 1 级）。"
+    },
+    {
+      "id": "exalt_seal",
+      "name": "圣王之印",
+      "type": "promote_ultimate",
+      "desc": "支线奖励的强力道具（演示用），象征月神教团的认可。"
+    }
+  ]
+}

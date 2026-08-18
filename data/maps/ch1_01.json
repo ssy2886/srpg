@@ -1,0 +1,28 @@
+{
+  "_comment": "第一章主线地图。清序章后在大地图显露。",
+  "id": "ch1_01",
+  "name": "断桥阻击",
+  "width": 10,
+  "height": 8,
+  "grid": [
+    ["plain", "plain", "forest", "plain", "plain", "plain", "plain", "mountain", "plain", "plain"],
+    ["plain", "forest", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "forest"],
+    ["plain", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["plain", "plain", "mountain", "plain", "plain", "plain", "plain", "forest", "plain", "plain"],
+    ["plain", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["plain", "plain", "plain", "plain", "forest", "plain", "plain", "plain", "plain", "plain"]
+  ],
+  "units": [
+    { "char_id": "lyra",      "team": "player", "pos": [1, 4], "lv": 1 },
+    { "char_id": "garrett",   "team": "player", "pos": [1, 5], "lv": 1 },
+    { "char_id": "mira",      "team": "player", "pos": [2, 5], "lv": 1 },
+    { "char_id": "bandit_03", "team": "enemy", "pos": [8, 3], "lv": 3, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_04", "team": "enemy", "pos": [8, 4], "lv": 3, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "archer_01", "team": "enemy", "pos": [7, 2], "lv": 3, "class": "archer", "weapon": "short_bow" }
+  ],
+  "objective": { "type": "rout", "description": "击败所有敌人" },
+  "reward": { "flag": "ch1_done" },
+  "decision": "ch1_captive"
+}

@@ -1,0 +1,26 @@
+{
+  "_comment": "支线地图：露出条件=清序章（主线进度），通关奖励强力英雄 seraphina。不影响主线。",
+  "id": "side_ruins",
+  "name": "古战场遗迹",
+  "width": 10,
+  "height": 8,
+  "grid": [
+    ["plain", "plain", "forest", "plain", "plain", "plain", "plain", "mountain", "plain", "plain"],
+    ["plain", "forest", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "forest"],
+    ["plain", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["plain", "plain", "mountain", "plain", "plain", "plain", "plain", "forest", "plain", "plain"],
+    ["plain", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["plain", "plain", "plain", "plain", "forest", "plain", "plain", "plain", "plain", "plain"]
+  ],
+  "units": [
+    { "char_id": "lyra",        "team": "player", "pos": [1, 3], "lv": 1 },
+    { "char_id": "garrett",     "team": "player", "pos": [1, 4], "lv": 1 },
+    { "char_id": "mira",        "team": "player", "pos": [2, 4], "lv": 1 },
+    { "char_id": "skeleton_01", "team": "enemy", "pos": [8, 3], "lv": 4, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "skeleton_02", "team": "enemy", "pos": [8, 5], "lv": 4, "class": "archer", "weapon": "short_bow" }
+  ],
+  "objective": { "type": "rout", "description": "清剿遗迹中的盗匪" },
+  "reward": { "character": "seraphina", "flag": "ruins_done" }
+}

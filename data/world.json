@@ -1,0 +1,67 @@
+{
+  "_comment": "大地图节点定义（圣魔之光石式）。每个 node：id/name/type(main|side)/pos[列x,行y]/map_id/unlock(显露条件)/reward_hint(UI提示)。实际通关奖励写在对应地图 JSON 的 reward 字段，由 BattleController 胜利时应用。",
+  "id": "chapter_1",
+  "title": "第一章 · 边境的狼烟",
+  "nodes": [
+    {
+      "id": "prologue_01",
+      "name": "序章 · 逃亡之夜",
+      "type": "main",
+      "pos": [1, 4],
+      "map_id": "prologue_01",
+      "unlock": {}
+    },
+    {
+      "id": "ch1_01",
+      "name": "第一章 · 断桥阻击",
+      "type": "main",
+      "pos": [6, 4],
+      "map_id": "ch1_01",
+      "unlock": { "requires_clear": ["prologue_01"] }
+    },
+    {
+      "id": "ch1_crossroads",
+      "name": "抉择 · 三岔口",
+      "type": "story",
+      "pos": [4, 3],
+      "decision": "ch1_crossroads",
+      "unlock": { "requires_clear": ["ch1_01"] }
+    },
+    {
+      "id": "ch1_frost",
+      "name": "分支 · 霜峰伏击",
+      "type": "main",
+      "pos": [7, 1],
+      "map_id": "ch1_frost",
+      "unlock": { "requires_flag": ["path_frost"], "forbid_flag": ["path_valley"] },
+      "reward_hint": "霜峰速达·精锐伏兵"
+    },
+    {
+      "id": "ch1_valley",
+      "name": "分支 · 河谷遭遇",
+      "type": "main",
+      "pos": [4, 6],
+      "map_id": "ch1_valley",
+      "unlock": { "requires_flag": ["path_valley"], "forbid_flag": ["path_frost"] },
+      "reward_hint": "河谷迂回·稳妥补给"
+    },
+    {
+      "id": "side_ruins",
+      "name": "支线 · 古战场遗迹",
+      "type": "side",
+      "pos": [1, 1],
+      "map_id": "side_ruins",
+      "unlock": { "requires_clear": ["prologue_01"] },
+      "reward_hint": "通关可得强力英雄"
+    },
+    {
+      "id": "side_shrine",
+      "name": "支线 · 月神神殿",
+      "type": "side",
+      "pos": [8, 6],
+      "map_id": "side_shrine",
+      "unlock": { "requires_character": ["seraphina"] },
+      "reward_hint": "通关可得终极转职道具"
+    }
+  ]
+}

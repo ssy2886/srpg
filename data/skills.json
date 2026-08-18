@@ -1,0 +1,78 @@
+{
+  "_comment": "技能数据骨架。type: passive(常驻) / active(主动指令, 带 cooldown) / conditional(条件自动)。effect.kind 为数据驱动的效果枚举，逻辑只认 kind。",
+  "skills": [
+    {
+      "id": "royal_grace",
+      "name": "王者的恩典",
+      "owner": "character",
+      "type": "passive",
+      "cooldown": 0,
+      "effect": { "kind": "adjacent_ally_damage_reduction", "range": 2, "value": 1 },
+      "description": "周围两格内友军受到伤害减少 1。"
+    },
+    {
+      "id": "keen_edge",
+      "name": "锐刃",
+      "owner": "character",
+      "type": "passive",
+      "cooldown": 0,
+      "effect": { "kind": "crit_bonus", "value": 15 },
+      "description": "暴击率 +15%。"
+    },
+    {
+      "id": "warding_light",
+      "name": "守护之光",
+      "owner": "character",
+      "type": "active",
+      "cooldown": 3,
+      "effect": { "kind": "shield_ally", "range": 1, "duration": 1, "value": 5 },
+      "description": "主动：为相邻友军附加 5 点护盾，持续 1 回合（冷却 3）。"
+    },
+    {
+      "id": "armor_pierce",
+      "name": "破甲",
+      "owner": "character",
+      "type": "active",
+      "cooldown": 4,
+      "effect": { "kind": "ignore_defense", "value": 0.5 },
+      "description": "主动：下次攻击无视目标 50% 防御（冷却 4）。"
+    },
+    {
+      "id": "swift_reaction",
+      "name": "迅捷反应",
+      "owner": "character",
+      "type": "conditional",
+      "cooldown": 0,
+      "trigger": { "condition": "hp_below_pct", "value": 30 },
+      "effect": { "kind": "avoid_bonus", "value": 20 },
+      "description": "HP 低于 30% 时，闪避 +20。"
+    },
+    {
+      "id": "royal_edict",
+      "name": "王命",
+      "owner": "class",
+      "type": "passive",
+      "cooldown": 0,
+      "effect": { "kind": "adjacent_ally_hit_bonus", "range": 1, "value": 10 },
+      "description": "相邻友军命中 +10（职业专属）。"
+    },
+    {
+      "id": "exalt_aura",
+      "name": "圣王光环",
+      "owner": "class",
+      "type": "passive",
+      "cooldown": 0,
+      "effect": { "kind": "adjacent_ally_damage_reduction", "range": 2, "value": 2 },
+      "description": "周围两格友军受伤减少 2（终极职专属）。"
+    },
+    {
+      "id": "silent_cast",
+      "name": "无声咏唱",
+      "owner": "class",
+      "type": "passive",
+      "cooldown": 0,
+      "effect": { "kind": "magic_avoid_ignore", "value": 1 },
+      "description": "施法不会被闪避（职业专属）。"
+    }
+  ]
+}

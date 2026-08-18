@@ -1,0 +1,55 @@
+{
+  "_comment": "抉择点（Phase 5，数据驱动）。每个 decision 可挂在世界节点（world.json 的 decision 字段，进入节点时弹出）或地图（maps/*.json 的 decision 字段，胜利后弹出）。options[].effects 支持：set_flags / clear_flags / grant_char / remove_char / grant_item / result_text。新增抉择点只需在此加数据 + 在 world.json 或某地图引用 id，无需改代码。",
+  "decisions": {
+    "ch1_crossroads": {
+      "title": "岔路口的抉择",
+      "prompt": "军队推进至三岔口：向北是风雪封山的霜峰捷径，两日可抵王都；向东南是河谷大道，安稳却要多绕五日。你要如何抉择？",
+      "once": true,
+      "options": [
+        {
+          "text": "走霜峰捷径（凶险 · 速达）",
+          "effects": {
+            "set_flags": ["path_frost"],
+            "result_text": "你率军踏入风雪。霜峰小径已在前方显现——那里埋伏着敌军的精锐。"
+          }
+        },
+        {
+          "text": "走河谷大道（安稳 · 迂回）",
+          "effects": {
+            "set_flags": ["path_valley"],
+            "result_text": "你选择稳扎稳打。河谷大道已通，沿途村落或可补给。"
+          }
+        }
+      ]
+    },
+    "ch1_captive": {
+      "title": "俘虏的处置",
+      "prompt": "断桥之战擒获一名敌方斥候，跪地求饶，声称愿归顺。如何处置？",
+      "once": true,
+      "options": [
+        {
+          "text": "收编入队（招募）",
+          "effects": {
+            "grant_char": "rook",
+            "set_flags": ["recruited_captive"],
+            "result_text": "斥候鲁克发誓效忠，加入了你的队伍（可在营地查看）。"
+          }
+        },
+        {
+          "text": "放他一条生路",
+          "effects": {
+            "set_flags": ["freed_captive"],
+            "result_text": "你挥手放他离去。或许他会将你的仁慈传扬。"
+          }
+        },
+        {
+          "text": "就地处决",
+          "effects": {
+            "set_flags": ["executed_captive"],
+            "result_text": "你没有迟疑。军中再无人敢质疑你的决断。"
+          }
+        }
+      ]
+    }
+  }
+}

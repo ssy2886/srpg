@@ -1,0 +1,27 @@
+{
+  "_comment": "河谷分支地图（抉择点 ch1_crossroads 选『河谷大道』后在大地图显露）。",
+  "id": "ch1_valley",
+  "name": "河谷遭遇",
+  "width": 10,
+  "height": 8,
+  "grid": [
+    ["plain", "plain", "forest", "plain", "plain", "plain", "plain", "mountain", "plain", "plain"],
+    ["plain", "forest", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "forest"],
+    ["plain", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["plain", "plain", "mountain", "plain", "plain", "plain", "plain", "forest", "plain", "plain"],
+    ["plain", "plain", "plain", "wall", "plain", "plain", "plain", "plain", "plain", "plain"],
+    ["forest", "plain", "plain", "plain", "plain", "plain", "mountain", "plain", "plain", "plain"],
+    ["plain", "plain", "plain", "plain", "forest", "plain", "plain", "plain", "plain", "plain"]
+  ],
+  "units": [
+    { "char_id": "lyra",      "team": "player", "pos": [1, 4], "lv": 3 },
+    { "char_id": "garrett",   "team": "player", "pos": [1, 5], "lv": 3 },
+    { "char_id": "mira",      "team": "player", "pos": [2, 5], "lv": 3 },
+    { "char_id": "bandit_v1", "team": "enemy", "pos": [8, 2], "lv": 3, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_v2", "team": "enemy", "pos": [8, 4], "lv": 3, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_v3", "team": "enemy", "pos": [8, 5], "lv": 3, "class": "brigand", "weapon": "iron_axe" }
+  ],
+  "objective": { "type": "rout", "description": "扫清河谷敌人" },
+  "reward": { "flag": "path_valley_cleared" }
+}

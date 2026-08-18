@@ -1,0 +1,23 @@
+# Godot 4 缓存与导入产物
+.godot/
+*.import
+.import/
+
+# 导出/构建产物
+builds/
+export_presets.cfg
+
+# 临时与日志
+*.log
+_*.png
+_preview*.png
+tools/_*.py
+/tmp/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
