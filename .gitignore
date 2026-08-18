@@ -21,3 +21,6 @@ Thumbs.db
 # 编辑器
 .vscode/
 .idea/
+
+# IDE 工作目录
+.workbuddy/
