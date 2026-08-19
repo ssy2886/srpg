@@ -111,6 +111,19 @@ func _is_unlocked(n: Dictionary) -> bool:
 func _is_available(n: Dictionary) -> bool:
 	return _is_unlocked(n)
 
+## 判断 b 是否在剧情路线上直接跟在 a 之后（b 的解锁依赖包含 a 的 map_id）。
+## 用于画"路线连线"，只连相邻章节，避免所有已解锁节点两两互联成乱网。
+func _is_route_link(a: Dictionary, b: Dictionary) -> bool:
+	var a_map: String = a.get("map_id", "")
+	if a_map == "":
+		return false
+	var u: Dictionary = b.get("unlock", {})
+	if u.get("requires_clear", []).has(a_map):
+		return true
+	if u.get("requires_any_clear", []).has(a_map):
+		return true
+	return false
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
@@ -220,10 +233,14 @@ func _draw() -> void:
 			draw_line(Vector2(0, gy), Vector2(size.x, gy), Color(1, 1, 1, 0.03), 1)
 	# 标题
 	draw_string(_font, Vector2(30, 44), _world.get("title", "大地图"), HORIZONTAL_ALIGNMENT_LEFT, -1, 30, Color(0.9, 0.9, 0.7))
-	# 已解锁节点间连线
+	# 剧情路线连线：只连"解锁依赖"上相邻的节点（主线前后章 + 分支），不再两两互联成乱网。
 	for i in nodes.size():
-		for j in range(i + 1, nodes.size()):
-			if _is_unlocked(nodes[i]) and _is_unlocked(nodes[j]):
+		if not _is_unlocked(nodes[i]):
+			continue
+		for j in nodes.size():
+			if i == j or not _is_unlocked(nodes[j]):
+				continue
+			if _is_route_link(nodes[i], nodes[j]):
 				draw_line(_node_pos(i), _node_pos(j), Color(0.25, 0.3, 0.4), 2)
 	# 节点（小地标点，不用大圆圈，让小人成为视觉主体）
 	for i in nodes.size():
