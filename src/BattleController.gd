@@ -102,6 +102,11 @@ func _init_battle(map_id: String) -> void:
 	_campaign_snapshot = Campaign.serialize()
 	_refresh_unit_visuals()
 	print("[BattleController] 地图 %s 载入，单位 %d，玩家阶段开始 | 目标：%s" % [map_id, units.size(), objective.get("description", "—")])
+	# 战场开场简短对话（{map_id}_battle），仅首次进入本关时播放
+	var battle_key: String = "%s_battle" % map_id
+	if not Campaign.is_story_seen(battle_key):
+		Campaign.mark_story_seen(battle_key)
+		StoryDialog.play(battle_key)
 
 # ---------- 输入 ----------
 func _input(event: InputEvent) -> void:

@@ -16,6 +16,7 @@ var story_flags: Dictionary = {}    # flag -> true
 var pending_support: Array = []     # 战斗结束待弹的支持对话请求 [{a,b,rank}]
 var pending_decision: String = ""   # 战斗胜利后待弹出的抉择点 id（仿 pending_support）
 var decisions_made: Dictionary = {}  # decision_id -> true（抉择点只触发一次）
+var stories_seen: Dictionary = {}    # story_key -> true（剧情对话只播一次）
 var current_map_id: String = ""     # WorldMap 进入战斗前设置，Battle 读取
 
 # ---- Phase 6：永久死亡 + 角色进度持久化 ----
@@ -34,6 +35,7 @@ func reset() -> void:
 	pending_support.clear()
 	pending_decision = ""
 	decisions_made.clear()
+	stories_seen.clear()
 	current_map_id = ""
 	roster.clear()
 	permadeath = false
@@ -51,6 +53,12 @@ func mark_decided(id: String) -> void:
 func is_decided(id: String) -> bool:
 	return decisions_made.get(id, false)
 
+# ---- 剧情已读（每段剧情只播一次） ----
+func mark_story_seen(key: String) -> void:
+	stories_seen[key] = true
+func is_story_seen(key: String) -> bool:
+	return stories_seen.get(key, false)
+
 # ---- Phase 6：序列化 / 反序列化 ----
 ## 把当前战役状态打包成可 JSON 化的字典。
 func serialize() -> Dictionary:
@@ -61,6 +69,7 @@ func serialize() -> Dictionary:
 		"owned_items": owned_items,
 		"story_flags": story_flags,
 		"decisions_made": decisions_made,
+		"stories_seen": stories_seen,
 		"current_map_id": current_map_id,
 		"roster": roster,
 		"support": _ST.get_instance().progress,
@@ -75,6 +84,7 @@ func deserialize(d: Dictionary) -> void:
 	owned_items = d.get("owned_items", {})
 	story_flags = d.get("story_flags", {})
 	decisions_made = d.get("decisions_made", {})
+	stories_seen = d.get("stories_seen", {})
 	current_map_id = d.get("current_map_id", "")
 	roster = d.get("roster", {})
 	_ST.get_instance().progress = d.get("support", {})
