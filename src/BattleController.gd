@@ -274,16 +274,57 @@ func _show_attack_range(u: Unit) -> void:
 		attack_cells_list = Combat.attack_cells(u.grid_pos, w.get("range", [1, 1]), terrain_grid)
 	queue_redraw()
 
+## 完整战斗序列（火纹标准）：主攻 → 反击（若存活且射程够）→ 双方按速度差追加追击。
+## 速度 spd 比对方高 4 点及以上 → 该方攻击后再追击一次（连击）。
+const FOLLOWUP_SPD_DIFF := 4
+
 func _do_attack(att: Unit, def: Unit) -> void:
+	# 1) 主攻
+	_single_strike(att, def)
+	if att == null or def == null or not is_instance_valid(def) or not is_instance_valid(att):
+		return
+	# 消费 armor_pierce（仅生效一次）
+	att.pending_ignore_def = 0.0
+	if def.hp <= 0:
+		return
+	# 2) 反击：防守方存活且武器射程覆盖距离
+	if _can_counter(def, att):
+		_single_strike(def, att)
+		if not is_instance_valid(att) or not is_instance_valid(def):
+			return
+		if att.hp <= 0:
+			return
+	# 3) 追击：速度差 >= FOLLOWUP_SPD_DIFF 的一方追加攻击
+	var a_spd: int = int(att.stats.get("spd", 0))
+	var d_spd: int = int(def.stats.get("spd", 0))
+	if a_spd - d_spd >= FOLLOWUP_SPD_DIFF and def.hp > 0:
+		_show_floater(att.position, "追击!", Color(0.5, 0.9, 1.0))
+		_single_strike(att, def)
+	elif d_spd - a_spd >= FOLLOWUP_SPD_DIFF and att.hp > 0 and _can_counter(def, att):
+		_show_floater(def.position, "追击!", Color(1.0, 0.7, 0.4))
+		_single_strike(def, att)
+
+## 防守方是否能反击（武器射程覆盖距离）。
+func _can_counter(defender: Unit, attacker: Unit) -> bool:
+	if defender.equipped_weapon == "":
+		return false
+	var w: Dictionary = DataManager.get_weapon(defender.equipped_weapon)
+	if w.is_empty():
+		return false
+	var rng: Array = w.get("range", [1, 1])
+	var dist: int = abs(defender.grid_pos.x - attacker.grid_pos.x) + abs(defender.grid_pos.y - attacker.grid_pos.y)
+	return dist >= int(rng[0]) and dist <= int(rng[1])
+
+## 单次攻击判定与结算（含演出/经验/护盾/死亡处理）。
+func _single_strike(att: Unit, def: Unit) -> void:
+	if att == null or def == null or not is_instance_valid(att) or not is_instance_valid(def):
+		return
 	var res: Dictionary = _resolve_attack(att, def)
 	if res.get("empty", false):
 		return
-	# 消费 armor_pierce（仅生效一次）
-	if att.pending_ignore_def > 0.0:
-		att.pending_ignore_def = 0.0
 	if res.hit:
 		var dealt: int = res.damage
-		if def.shield > 0:           # 护盾吸收
+		if def.shield > 0:
 			var absorbed := mini(def.shield, dealt)
 			def.shield -= absorbed
 			dealt -= absorbed
@@ -294,37 +335,45 @@ func _do_attack(att: Unit, def: Unit) -> void:
 		_show_floater(def.position, txt, Color(1, 0.3, 0.3))
 		def.refresh_label()
 		if def.hp <= 0:
-			occupied.erase(def.grid_pos)
-			units.erase(def)
-			def.queue_free()
-			_check_battle_end()
+			_kill_unit(def)
 	else:
 		_show_floater(def.position, "MISS", Color(0.9, 0.9, 0.9))
-	# 战斗动作演出：攻击者挥击，命中且未死者受击
+	# 演出：攻击者挥击，命中且未死者受击
 	if res.hit:
 		att.play_anim("attack")
-		if def.hp > 0:
+		if is_instance_valid(def) and def.hp > 0:
 			def.play_anim("hurt")
 	# 养成结算：仅我方获得经验与武器熟练度
 	if att.team == "player":
-		var w: Dictionary = DataManager.get_weapon(att.equipped_weapon)
-		var killed: bool = res.hit and (def.hp - res.damage) <= 0
-		var uexp := 1
-		if res.hit:
-			uexp = clampi(res.damage, 1, 15)
-			if killed:
-				uexp += 15
-		var lv_gained: int = att.gain_exp(uexp)
-		var wtype: String = w.get("type", "")
-		if wtype != "":
-			var wexp := 2 + clampi(res.damage, 0, 10) + (15 if killed else 0)
-			att.gain_weapon_exp(wtype, wexp)
-		if lv_gained > 0:
-			_show_floater(att.position, "升级! Lv%d" % att.lvl, Color(1, 1, 0.3))
-		elif res.hit:
-			_show_floater(att.position, "EXP+%d" % uexp, Color(0.8, 0.9, 1.0))
-		_show_exp_bar(att, uexp, killed)   # 经验条动画（击杀时金色高亮）
-	_update_stat_panel()   # HP/属性变化后刷新面板
+		_grant_combat_exp(att, def, res)
+	_update_stat_panel()
+
+## 击杀处理：移除占用/单位列表/释放，检查战斗结束。
+func _kill_unit(u: Unit) -> void:
+	occupied.erase(u.grid_pos)
+	units.erase(u)
+	u.queue_free()
+	_check_battle_end()
+
+## 战斗经验与武器熟练度结算（含升级/经验条演出）。
+func _grant_combat_exp(att: Unit, def: Unit, res: Dictionary) -> void:
+	var w: Dictionary = DataManager.get_weapon(att.equipped_weapon)
+	var killed: bool = res.hit and (not is_instance_valid(def) or def.hp <= 0)
+	var uexp := 1
+	if res.hit:
+		uexp = clampi(res.damage, 1, 15)
+		if killed:
+			uexp += 15
+	var lv_gained: int = att.gain_exp(uexp)
+	var wtype: String = w.get("type", "")
+	if wtype != "":
+		var wexp := 2 + clampi(res.damage, 0, 10) + (15 if killed else 0)
+		att.gain_weapon_exp(wtype, wexp)
+	if lv_gained > 0:
+		_show_floater(att.position, "升级! Lv%d" % att.lvl, Color(1, 1, 0.3))
+	elif res.hit:
+		_show_floater(att.position, "EXP+%d" % uexp, Color(0.8, 0.9, 1.0))
+	_show_exp_bar(att, uexp, killed)
 
 ## 在单位头顶显示经验条：底槽 + 填充（当前 exp/100）+ 获得量标签，动画后消失。
 func _show_exp_bar(u: Unit, gained: int, killed: bool) -> void:
@@ -901,31 +950,33 @@ func _fill_forecast(att: Unit, def: Unit) -> void:
 	else:
 		forecast_tri_text.text = "无"
 		forecast_tri_text.add_theme_color_override("font_color", Color(0.65, 0.65, 0.7))
-	# 攻方预测
+	# 攻方预测（含追击标记）
 	var a: Dictionary = _forecast_attack(att, def)
-	forecast_att.text = "%s  命中 %d%%  伤害 %d  暴击 %d%%" % [
-		att.display_name, int(a.chance), int(a.dmg), int(a.crit_chance)]
+	var a_follow: String = " ×2" if int(att.stats.get("spd", 0)) - int(def.stats.get("spd", 0)) >= FOLLOWUP_SPD_DIFF else ""
+	forecast_att.text = "%s  命中 %d%%  伤害 %d  暴击 %d%%%s" % [
+		att.display_name, int(a.chance), int(a.dmg), int(a.crit_chance), a_follow]
 	var def_after: int = def.hp - int(a.dmg)
+	if a_follow != "":
+		def_after -= int(a.dmg)   # 追击再打一次
 	if def_after <= 0:
 		forecast_counter.text = ""
 		forecast_result.text = "【%s 将被击败】" % def.display_name
 		forecast_result.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3))
 		return
 	# 反击判定：防守方有武器且射程覆盖攻方
-	var can_counter := false
-	if not dw.is_empty():
-		var dr: Array = dw.get("range", [1, 1])
-		var dist: int = abs(att.grid_pos.x - def.grid_pos.x) + abs(att.grid_pos.y - def.grid_pos.y)
-		can_counter = dist >= int(dr[0]) and dist <= int(dr[1])
+	var can_counter: bool = _can_counter(def, att)
 	if not can_counter:
 		forecast_counter.text = "%s 无法反击" % def.display_name
 		forecast_result.text = "预计：%s 剩 %d" % [def.display_name, def_after]
 		forecast_result.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
 		return
 	var c: Dictionary = _forecast_attack(def, att)
-	forecast_counter.text = "%s 反击  命中 %d%%  伤害 %d  暴击 %d%%" % [
-		def.display_name, int(c.chance), int(c.dmg), int(c.crit_chance)]
+	var d_follow: String = " ×2" if int(def.stats.get("spd", 0)) - int(att.stats.get("spd", 0)) >= FOLLOWUP_SPD_DIFF else ""
+	forecast_counter.text = "%s 反击  命中 %d%%  伤害 %d  暴击 %d%%%s" % [
+		def.display_name, int(c.chance), int(c.dmg), int(c.crit_chance), d_follow]
 	var att_after: int = att.hp - int(c.dmg)
+	if d_follow != "":
+		att_after -= int(c.dmg)
 	forecast_result.text = "预计：%s 剩 %d / %s 剩 %d" % [
 		def.display_name, def_after, att.display_name, maxi(0, att_after)]
 	forecast_result.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
