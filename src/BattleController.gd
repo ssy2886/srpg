@@ -15,7 +15,7 @@ const StoryDialog = preload("res://src/StoryDialog.gd")
 
 @export var tile_map: TileMap
 @export var unit_scene: PackedScene
-@export var tile_size: int = 64
+@export var tile_size: int = 48
 @export var start_map: String = "prologue_01"
 
 var units: Array = []
@@ -130,7 +130,18 @@ func _input(event: InputEvent) -> void:
 			return
 		_handle_debug_keys(event)
 		return
-	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+	if not (event is InputEventMouseButton and event.pressed):
+		return
+	# 右键：取消当前操作（取消查看敌方范围 / 取消选中 / 取消行动返回原位）
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		if _inspect_move.size() > 0 or _inspect_attack.size() > 0:
+			_inspect_move = []
+			_inspect_attack = []
+			queue_redraw()
+		elif selected != null or _moved_this_action:
+			_cancel_action()
+		return
+	if event.button_index != MOUSE_BUTTON_LEFT:
 		return
 	if phase != "PLAYER" or battle_over:
 		return
@@ -595,17 +606,34 @@ func _enemy_act(u: Unit) -> void:
 		if score < best_score:
 			best_score = score
 			best_cell = c
-	# 移动
-	occupied.erase(u.grid_pos)
-	u.grid_pos = best_cell
-	occupied[best_cell] = u
-	u.position = Vector2(best_cell.x, best_cell.y) * tile_size + Vector2(tile_size / 2, tile_size / 2)
-	# 攻击
+	# 沿路径逐格移动（可见轨迹，而非瞬移）
+	if best_cell != u.grid_pos:
+		var path: Array = Combat.path_to(u, best_cell, terrain_grid, occupied)
+		occupied.erase(u.grid_pos)
+		u.grid_pos = best_cell
+		occupied[best_cell] = u
+		await _tween_along_path(u, path)
+	# 攻击（播放攻击动画，再做伤害结算）
 	if not w.is_empty():
 		var dist: int = abs(u.grid_pos.x - target.grid_pos.x) + abs(u.grid_pos.y - target.grid_pos.y)
 		if dist >= int(rng[0]) and dist <= int(rng[1]):
+			u.play_anim("attack")
+			await get_tree().create_timer(0.35).timeout   # 等攻击动作挥出
 			_do_attack(u, target)
 	u.acted = true
+
+## 让单位沿 path（Array[Vector2i]）逐格移动，呈现行走轨迹。
+func _tween_along_path(u: Unit, path: Array) -> void:
+	var half: Vector2 = Vector2(tile_size / 2, tile_size / 2)
+	if path.is_empty():
+		u.position = Vector2(u.grid_pos.x, u.grid_pos.y) * tile_size + half
+		return
+	u.play_anim("move")
+	var tw := create_tween()
+	for step in path:
+		tw.tween_property(u, "position", Vector2(step.x, step.y) * tile_size + half, 0.12)
+	await tw.finished
+	u.play_anim("idle")
 
 # ---------- 表现 ----------
 func _draw() -> void:
@@ -997,9 +1025,10 @@ func _end_battle(win: bool, msg: String) -> void:
 		SaveManager.save(Campaign.serialize())
 		# 延迟回大地图，让玩家看清结果横幅
 		await get_tree().create_timer(1.3).timeout
-		# 过关剧情（有则播完再回大地图）
+		# 过关剧情（仅首次播放；已看过的直接回大地图）
 		var story_key: String = map_id + "_clear"
-		if not DataManager.get_story(story_key).is_empty():
+		if not Campaign.is_story_seen(story_key) and not DataManager.get_story(story_key).is_empty():
+			Campaign.mark_story_seen(story_key)
 			StoryDialog.play(story_key, func() -> void:
 				get_tree().change_scene_to_file("res://scenes/WorldMap.tscn"))
 		else:

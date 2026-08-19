@@ -1,11 +1,19 @@
 {
-  "_comment": "第十八章 · 荒芜之地。整图背景见 assets/maps/ch18_01.jpg(待生成);grid 按主题布局。",
+  "_comment": "第十八章 · 荒芜之地。整图背景见 assets/maps/ch18_01.jpg(待生成);grid 按主题布局(20x14)。",
   "id": "ch18_01",
   "name": "第十八章 · 荒芜之地",
-  "width": 12,
-  "height": 9,
+  "width": 20,
+  "height": 14,
   "grid": [
     [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "mountain",
       "mountain",
       "plain",
@@ -31,7 +39,147 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain"
     ],
     [
       "plain",
@@ -41,14 +189,109 @@
       "plain",
       "plain",
       "plain",
-      "forest",
-      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "forest"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain"
     ],
     [
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "water",
+      "forest"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
       "plain",
       "plain",
       "plain",
@@ -59,75 +302,14 @@
       "plain",
       "water",
       "plain",
-      "plain"
-    ],
-    [
+      "plain",
+      "plain",
+      "water",
       "plain",
       "plain",
       "plain",
       "plain",
       "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "water"
-    ],
-    [
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain"
-    ],
-    [
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain"
-    ],
-    [
-      "plain",
-      "plain",
-      "mountain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "mountain",
-      "plain",
-      "plain"
-    ],
-    [
-      "mountain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "mountain",
       "plain",
       "plain"
     ]
@@ -138,7 +320,7 @@
       "team": "player",
       "pos": [
         1,
-        7
+        12
       ],
       "lv": 1
     },
@@ -147,7 +329,7 @@
       "team": "player",
       "pos": [
         1,
-        6
+        11
       ],
       "lv": 1
     },
@@ -156,7 +338,7 @@
       "team": "player",
       "pos": [
         2,
-        7
+        12
       ],
       "lv": 1
     },
@@ -165,7 +347,7 @@
       "team": "player",
       "pos": [
         2,
-        6
+        11
       ],
       "lv": 1
     },
@@ -174,7 +356,7 @@
       "team": "player",
       "pos": [
         1,
-        8
+        10
       ],
       "lv": 1
     },
@@ -182,7 +364,7 @@
       "char_id": "enemy_01",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         1
       ],
       "lv": 17,
@@ -193,7 +375,7 @@
       "char_id": "enemy_02",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         2
       ],
       "lv": 17,
@@ -204,7 +386,7 @@
       "char_id": "enemy_03",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         1
       ],
       "lv": 17,
@@ -215,7 +397,7 @@
       "char_id": "enemy_04",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         3
       ],
       "lv": 17,
@@ -226,7 +408,7 @@
       "char_id": "enemy_05",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         2
       ],
       "lv": 17,
@@ -237,7 +419,7 @@
       "char_id": "enemy_06",
       "team": "enemy",
       "pos": [
-        11,
+        19,
         2
       ],
       "lv": 17,
@@ -248,7 +430,7 @@
       "char_id": "enemy_07",
       "team": "enemy",
       "pos": [
-        8,
+        16,
         2
       ],
       "lv": 17,
@@ -259,12 +441,34 @@
       "char_id": "enemy_08",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         4
       ],
       "lv": 17,
       "class": "mage",
       "weapon": "fire_tome"
+    },
+    {
+      "char_id": "enemy_09",
+      "team": "enemy",
+      "pos": [
+        17,
+        3
+      ],
+      "lv": 17,
+      "class": "brigand",
+      "weapon": "iron_axe"
+    },
+    {
+      "char_id": "enemy_10",
+      "team": "enemy",
+      "pos": [
+        19,
+        3
+      ],
+      "lv": 17,
+      "class": "archer",
+      "weapon": "short_bow"
     }
   ],
   "objective": {

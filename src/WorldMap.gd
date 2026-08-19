@@ -186,9 +186,10 @@ func _enter_current() -> void:
 		queue_redraw()   # 无地图的剧情/已抉择节点：停留
 		return
 	Campaign.current_map_id = map_id
-	# 进入关卡前剧情（有则播完再进战斗）
+	# 进入关卡前剧情（仅首次播放；已看过的直接进战斗）
 	var story_key: String = map_id + "_enter"
-	if not DataManager.get_story(story_key).is_empty():
+	if not Campaign.is_story_seen(story_key) and not DataManager.get_story(story_key).is_empty():
+		Campaign.mark_story_seen(story_key)
 		StoryDialog.play(story_key, func() -> void:
 			get_tree().change_scene_to_file("res://scenes/Battle.tscn"))
 	else:

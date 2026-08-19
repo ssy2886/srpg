@@ -1,26 +1,29 @@
 {
-  "_comment": "序章战斗地图（湖畔草原）。bg_image 为整图背景；grid 为地形 id 二维数组（10×8），与背景图地貌对应：湖=water、河=water、桥=road、松树=forest、堡垒=fort、其余=plain。坐标 pos=[列x,行y]，从0开始。",
+  "_comment": "序章战斗地图（湖畔草原，14×10）。bg_image 为整图背景；grid 与背景地貌对应：湖/河=water、桥=road、松树=forest、堡垒=fort、土路=road、其余=plain。",
   "id": "prologue_01",
   "name": "逃亡之夜",
-  "width": 10,
-  "height": 8,
+  "width": 14,
+  "height": 10,
   "bg_image": "res://assets/maps/battlefield_lake.jpg",
   "grid": [
-    ["forest", "plain", "forest", "plain", "plain", "road",  "plain", "plain", "fort",  "forest"],
-    ["forest", "water", "plain",  "plain", "plain", "road",  "plain", "plain", "fort",  "forest"],
-    ["forest", "water", "road",   "road",  "plain", "plain", "water", "water", "plain", "forest"],
-    ["forest", "water", "plain",  "plain", "water", "water", "water", "water", "water", "forest"],
-    ["plain",  "water", "plain",  "plain", "water", "water", "water", "water", "water", "plain"],
-    ["plain",  "plain", "plain",  "plain", "water", "water", "water", "water", "plain", "plain"],
-    ["forest", "plain", "plain",  "plain", "plain", "water", "water", "plain", "plain", "forest"],
-    ["forest", "plain", "forest", "plain", "plain", "plain", "plain", "plain", "forest","forest"]
+    ["forest","forest","plain","forest","plain","plain","road","plain","plain","plain","fort","fort","forest","forest"],
+    ["forest","water","water","plain","plain","plain","road","plain","plain","plain","fort","fort","forest","forest"],
+    ["forest","water","water","road","road","plain","plain","plain","water","water","water","plain","plain","forest"],
+    ["forest","water","water","plain","plain","plain","water","water","water","water","water","water","plain","forest"],
+    ["plain","water","water","plain","plain","water","water","water","water","water","water","water","water","plain"],
+    ["plain","water","plain","plain","plain","water","water","water","water","water","water","water","water","plain"],
+    ["plain","plain","plain","plain","plain","water","water","water","water","water","water","water","plain","plain"],
+    ["forest","plain","plain","plain","plain","plain","water","water","water","water","water","plain","plain","forest"],
+    ["forest","plain","plain","forest","plain","plain","plain","water","water","water","plain","plain","forest","forest"],
+    ["forest","forest","plain","forest","plain","plain","plain","plain","plain","plain","plain","forest","forest","forest"]
   ],
   "units": [
-    { "char_id": "lyra",    "team": "player", "pos": [1, 5], "lv": 1, "items": ["master_seal"] },
-    { "char_id": "garrett", "team": "player", "pos": [1, 6], "lv": 1 },
-    { "char_id": "mira",    "team": "player", "pos": [2, 6], "lv": 1 },
-    { "char_id": "bandit_01", "team": "enemy", "pos": [8, 2], "lv": 2, "class": "brigand", "weapon": "iron_axe" },
-    { "char_id": "bandit_02", "team": "enemy", "pos": [8, 3], "lv": 2, "class": "brigand", "weapon": "iron_axe" }
+    { "char_id": "lyra",    "team": "player", "pos": [1, 7], "lv": 1, "items": ["master_seal"] },
+    { "char_id": "garrett", "team": "player", "pos": [1, 8], "lv": 1 },
+    { "char_id": "mira",    "team": "player", "pos": [2, 8], "lv": 1 },
+    { "char_id": "bandit_01", "team": "enemy", "pos": [12, 2], "lv": 2, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_02", "team": "enemy", "pos": [12, 3], "lv": 2, "class": "brigand", "weapon": "iron_axe" },
+    { "char_id": "bandit_03", "team": "enemy", "pos": [11, 3], "lv": 2, "class": "brigand", "weapon": "iron_axe" }
   ],
   "objective": { "type": "rout", "description": "击败所有敌人" },
   "reward": { "flag": "prologue_done" }

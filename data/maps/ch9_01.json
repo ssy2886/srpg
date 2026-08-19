@@ -1,9 +1,9 @@
 {
-  "_comment": "第九章 · 第一次攻城。整图背景见 assets/maps/ch9_01.jpg(待生成);grid 按主题布局。",
+  "_comment": "第九章 · 第一次攻城。整图背景见 assets/maps/ch9_01.jpg(待生成);grid 按主题布局(20x14)。",
   "id": "ch9_01",
   "name": "第九章 · 第一次攻城",
-  "width": 12,
-  "height": 9,
+  "width": 20,
+  "height": 14,
   "grid": [
     [
       "plain",
@@ -17,6 +17,36 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain"
     ],
     [
@@ -28,9 +58,17 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "wall",
       "fort",
       "fort",
+      "fort",
+      "wall",
       "wall"
     ],
     [
@@ -42,9 +80,61 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "wall",
+      "fort",
       "road",
       "fort",
+      "wall",
+      "wall"
+    ],
+    [
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "wall",
+      "fort",
+      "fort",
+      "fort",
+      "wall",
+      "wall"
+    ],
+    [
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "wall",
+      "wall",
+      "wall",
+      "wall",
+      "wall",
       "wall"
     ],
     [
@@ -56,12 +146,6 @@
       "plain",
       "plain",
       "plain",
-      "wall",
-      "wall",
-      "wall",
-      "wall"
-    ],
-    [
       "plain",
       "plain",
       "plain",
@@ -86,7 +170,15 @@
       "plain",
       "plain",
       "plain",
-      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain"
     ],
     [
@@ -94,6 +186,10 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "forest",
       "plain",
       "plain",
@@ -101,6 +197,76 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "forest"
     ],
     [
@@ -115,9 +281,25 @@
       "plain",
       "plain",
       "plain",
-      "forest"
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
     ],
     [
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
@@ -138,7 +320,7 @@
       "team": "player",
       "pos": [
         1,
-        7
+        12
       ],
       "lv": 1
     },
@@ -147,7 +329,7 @@
       "team": "player",
       "pos": [
         1,
-        6
+        11
       ],
       "lv": 1
     },
@@ -156,7 +338,7 @@
       "team": "player",
       "pos": [
         2,
-        7
+        12
       ],
       "lv": 1
     },
@@ -165,7 +347,7 @@
       "team": "player",
       "pos": [
         2,
-        6
+        11
       ],
       "lv": 1
     },
@@ -174,7 +356,7 @@
       "team": "player",
       "pos": [
         1,
-        8
+        10
       ],
       "lv": 1
     },
@@ -182,7 +364,7 @@
       "char_id": "enemy_01",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         1
       ],
       "lv": 8,
@@ -193,7 +375,7 @@
       "char_id": "enemy_02",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         2
       ],
       "lv": 8,
@@ -204,7 +386,7 @@
       "char_id": "enemy_03",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         1
       ],
       "lv": 8,
@@ -215,7 +397,7 @@
       "char_id": "enemy_04",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         3
       ],
       "lv": 8,
@@ -226,12 +408,34 @@
       "char_id": "enemy_05",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         2
       ],
       "lv": 8,
       "class": "brigand",
       "weapon": "iron_axe"
+    },
+    {
+      "char_id": "enemy_06",
+      "team": "enemy",
+      "pos": [
+        19,
+        2
+      ],
+      "lv": 8,
+      "class": "archer",
+      "weapon": "short_bow"
+    },
+    {
+      "char_id": "enemy_07",
+      "team": "enemy",
+      "pos": [
+        16,
+        2
+      ],
+      "lv": 8,
+      "class": "mercenary",
+      "weapon": "iron_sword"
     }
   ],
   "objective": {

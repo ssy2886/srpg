@@ -1,9 +1,9 @@
 {
-  "_comment": "终章 · 晨曦重燃。整图背景见 assets/maps/ch29_01.jpg(待生成);grid 按主题布局。",
+  "_comment": "终章 · 晨曦重燃。整图背景见 assets/maps/ch29_01.jpg(待生成);grid 按主题布局(20x14)。",
   "id": "ch29_01",
   "name": "终章 · 晨曦重燃",
-  "width": 12,
-  "height": 9,
+  "width": 20,
+  "height": 14,
   "grid": [
     [
       "plain",
@@ -17,9 +17,20 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain"
     ],
     [
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
@@ -27,20 +38,11 @@
       "plain",
       "wall",
       "wall",
+      "wall",
+      "wall",
       "plain",
       "plain",
       "plain",
-      "plain",
-      "plain"
-    ],
-    [
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "fort",
-      "fort",
       "plain",
       "plain",
       "plain",
@@ -53,8 +55,16 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
       "fort",
       "fort",
+      "fort",
+      "fort",
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
@@ -62,30 +72,178 @@
       "plain"
     ],
     [
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "fort",
+      "fort",
+      "fort",
+      "fort",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "fort",
+      "fort",
+      "fort",
+      "fort",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
       "plain",
       "forest",
+      "plain",
       "road",
       "road",
       "plain",
       "plain",
-      "plain",
-      "plain",
-      "plain"
-    ],
-    [
       "plain",
       "plain",
       "plain",
       "plain",
       "forest",
-      "road",
-      "road",
-      "plain",
-      "forest",
-      "plain",
       "plain",
       "plain"
     ],
@@ -95,22 +253,16 @@
       "plain",
       "plain",
       "plain",
-      "road",
-      "road",
-      "plain",
-      "plain",
-      "plain",
-      "plain",
-      "forest"
-    ],
-    [
-      "plain",
       "plain",
       "plain",
       "plain",
       "plain",
       "road",
       "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
@@ -123,8 +275,38 @@
       "plain",
       "plain",
       "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "road",
       "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
       "plain",
       "plain",
       "plain",
@@ -138,7 +320,7 @@
       "team": "player",
       "pos": [
         1,
-        7
+        12
       ],
       "lv": 1
     },
@@ -147,7 +329,7 @@
       "team": "player",
       "pos": [
         1,
-        6
+        11
       ],
       "lv": 1
     },
@@ -156,7 +338,7 @@
       "team": "player",
       "pos": [
         2,
-        7
+        12
       ],
       "lv": 1
     },
@@ -165,7 +347,7 @@
       "team": "player",
       "pos": [
         2,
-        6
+        11
       ],
       "lv": 1
     },
@@ -174,7 +356,7 @@
       "team": "player",
       "pos": [
         1,
-        8
+        10
       ],
       "lv": 1
     },
@@ -182,7 +364,7 @@
       "char_id": "enemy_01",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         1
       ],
       "lv": 28,
@@ -193,7 +375,7 @@
       "char_id": "enemy_02",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         2
       ],
       "lv": 28,
@@ -204,7 +386,7 @@
       "char_id": "enemy_03",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         1
       ],
       "lv": 28,
@@ -215,7 +397,7 @@
       "char_id": "enemy_04",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         3
       ],
       "lv": 28,
@@ -226,7 +408,7 @@
       "char_id": "enemy_05",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         2
       ],
       "lv": 28,
@@ -237,7 +419,7 @@
       "char_id": "enemy_06",
       "team": "enemy",
       "pos": [
-        11,
+        19,
         2
       ],
       "lv": 28,
@@ -248,7 +430,7 @@
       "char_id": "enemy_07",
       "team": "enemy",
       "pos": [
-        8,
+        16,
         2
       ],
       "lv": 28,
@@ -259,7 +441,7 @@
       "char_id": "enemy_08",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         4
       ],
       "lv": 28,
@@ -270,7 +452,7 @@
       "char_id": "enemy_09",
       "team": "enemy",
       "pos": [
-        9,
+        17,
         3
       ],
       "lv": 28,
@@ -281,7 +463,7 @@
       "char_id": "enemy_10",
       "team": "enemy",
       "pos": [
-        11,
+        19,
         3
       ],
       "lv": 28,
@@ -292,7 +474,7 @@
       "char_id": "enemy_11",
       "team": "enemy",
       "pos": [
-        8,
+        16,
         3
       ],
       "lv": 28,
@@ -303,12 +485,45 @@
       "char_id": "enemy_12",
       "team": "enemy",
       "pos": [
-        10,
+        18,
         5
       ],
       "lv": 28,
       "class": "mage",
       "weapon": "fire_tome"
+    },
+    {
+      "char_id": "enemy_13",
+      "team": "enemy",
+      "pos": [
+        15,
+        2
+      ],
+      "lv": 28,
+      "class": "brigand",
+      "weapon": "iron_axe"
+    },
+    {
+      "char_id": "enemy_14",
+      "team": "enemy",
+      "pos": [
+        17,
+        4
+      ],
+      "lv": 28,
+      "class": "archer",
+      "weapon": "short_bow"
+    },
+    {
+      "char_id": "enemy_15",
+      "team": "enemy",
+      "pos": [
+        19,
+        4
+      ],
+      "lv": 28,
+      "class": "mercenary",
+      "weapon": "iron_sword"
     }
   ],
   "objective": {
