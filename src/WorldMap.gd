@@ -58,12 +58,13 @@ func _ready() -> void:
 		_party_pos = _node_pos(cursor)
 
 func _load_texture(path: String) -> Texture2D:
-	# 优先 load()（已导入时最快），失败则用 Image.load() 读源 png 回退。
+	# 有 .import 用 load()（最快），否则直接 Image.load()（避免未导入资源的 loader 警告）。
 	if not FileAccess.file_exists(path):
 		return null
-	var r = load(path)
-	if r != null:
-		return r
+	if FileAccess.file_exists(path + ".import"):
+		var r = load(path)
+		if r != null:
+			return r
 	var img := Image.new()
 	if img.load(path) != OK:
 		return null

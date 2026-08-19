@@ -113,13 +113,14 @@ func _build_ui() -> void:
 	_hint.offset_top = -36
 	add_child(_hint)
 
-## 加载纹理：load() 优先，Image.load() 回退（绕 .import）。
+## 加载纹理：有 .import 用 load()（最快），否则直接 Image.load()（避免未导入资源的 loader 警告）。
 func _load_tex(path: String) -> Texture2D:
 	if not FileAccess.file_exists(path):
 		return null
-	var r = load(path)
-	if r != null:
-		return r
+	if FileAccess.file_exists(path + ".import"):
+		var r = load(path)
+		if r != null:
+			return r
 	var img := Image.new()
 	if img.load(path) != OK:
 		return null

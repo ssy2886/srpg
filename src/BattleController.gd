@@ -1065,33 +1065,33 @@ func _end_battle(win: bool, msg: String) -> void:
 		var map_id: String = Campaign.current_map_id if Campaign.current_map_id != "" else start_map
 		Campaign.mark_cleared(map_id)
 		_apply_map_reward(map_id)
-		# 地图自带的抉择点（Phase 5）：胜利后由大地图弹出，once 不重复
 		var mdec: String = DataManager.get_map(map_id).get("decision", "")
 		if mdec != "" and not Campaign.is_decided(mdec):
 			Campaign.pending_decision = mdec
-		# 待弹支持对话转交 WorldMap（切换场景后由大地图弹出，避免残留）
 		Campaign.pending_support = _support_unlocks
 		_support_unlocks = []
-		# 落盘存档（含 permadeath/roster/进度/flag/抉择）
 		SaveManager.save(Campaign.serialize())
-		# 延迟回大地图，让玩家看清结果横幅
-		await get_tree().create_timer(1.3).timeout
-		# 过关剧情（仅首次播放；已看过的直接回大地图）
-		var story_key: String = map_id + "_clear"
-		if not Campaign.is_story_seen(story_key) and not DataManager.get_story(story_key).is_empty():
-			Campaign.mark_story_seen(story_key)
-			StoryDialog.play(story_key, func() -> void:
-				get_tree().change_scene_to_file("res://scenes/WorldMap.tscn"))
-		else:
-			get_tree().change_scene_to_file("res://scenes/WorldMap.tscn")
 	else:
 		# 战败：还原到进入本战前的快照（养成/招募全部作废，可重打）
 		if not _campaign_snapshot.is_empty():
 			Campaign.deserialize(_campaign_snapshot)
 		Campaign.pending_decision = ""
 		_support_unlocks = []
-		await get_tree().create_timer(1.6).timeout
-		get_tree().change_scene_to_file("res://scenes/WorldMap.tscn")
+	# 收尾（延迟看横幅→过关剧情→切场景）异步执行，避免在同步函数里 await 报警。
+	_finish_battle_async(win)
+
+## 战斗收尾协程：延迟看横幅 → 过关剧情 → 回大地图。
+func _finish_battle_async(win: bool) -> void:
+	var map_id: String = Campaign.current_map_id if Campaign.current_map_id != "" else start_map
+	await get_tree().create_timer(1.3 if win else 1.6).timeout
+	if win:
+		var story_key: String = map_id + "_clear"
+		if not Campaign.is_story_seen(story_key) and not DataManager.get_story(story_key).is_empty():
+			Campaign.mark_story_seen(story_key)
+			StoryDialog.play(story_key, func() -> void:
+				get_tree().change_scene_to_file("res://scenes/WorldMap.tscn"))
+			return
+	get_tree().change_scene_to_file("res://scenes/WorldMap.tscn")
 
 ## 胜利后应用本场结果到 Campaign：存活者进度回写；permadeath 下阵亡者永久退场。
 func _apply_battle_result() -> void:

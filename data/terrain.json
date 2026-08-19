@@ -1,12 +1,89 @@
 {
   "_comment": "地形数据。def/avo 为战斗加减值；cost 为移动消耗（99=不可通行）；atlas 为在地形 TileSet 图集里的坐标 [列,行]，供 BattleMap 铺设瓦片。",
   "terrain": [
-    { "id": "plain",    "name": "平原", "def": 0, "avo": 0,  "cost": 1, "impassable": false, "atlas": [0, 0] },
-    { "id": "forest",   "name": "森林", "def": 1, "avo": 20, "cost": 2, "impassable": false, "atlas": [1, 0] },
-    { "id": "mountain", "name": "山地", "def": 2, "avo": 30, "cost": 3, "impassable": false, "atlas": [2, 0] },
-    { "id": "fort",     "name": "要塞", "def": 2, "avo": 10, "cost": 1, "impassable": false, "atlas": [3, 0] },
-    { "id": "wall",     "name": "墙壁", "def": 0, "avo": 0,  "cost": 99, "impassable": true,  "atlas": [4, 0] },
-    { "id": "water",    "name": "水域", "def": 0, "avo": 0,  "cost": 99, "impassable": true,  "atlas": [5, 0] },
-    { "id": "road",     "name": "道路", "def": 0, "avo": 0,  "cost": 1, "impassable": false, "atlas": [0, 0] }
+    {
+      "id": "plain",
+      "name": "平原",
+      "def": 0,
+      "avo": 0,
+      "cost": 1,
+      "impassable": false,
+      "atlas": [
+        0,
+        0
+      ]
+    },
+    {
+      "id": "forest",
+      "name": "森林",
+      "def": 1,
+      "avo": 20,
+      "cost": 2,
+      "impassable": false,
+      "atlas": [
+        1,
+        0
+      ]
+    },
+    {
+      "id": "mountain",
+      "name": "山地",
+      "def": 2,
+      "avo": 30,
+      "cost": 3,
+      "impassable": false,
+      "atlas": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "fort",
+      "name": "要塞",
+      "def": 2,
+      "avo": 10,
+      "cost": 1,
+      "impassable": false,
+      "atlas": [
+        3,
+        0
+      ]
+    },
+    {
+      "id": "wall",
+      "name": "墙壁",
+      "def": 0,
+      "avo": 0,
+      "cost": 99,
+      "impassable": true,
+      "atlas": [
+        4,
+        0
+      ]
+    },
+    {
+      "id": "water",
+      "name": "水域",
+      "def": 0,
+      "avo": 0,
+      "cost": 99,
+      "impassable": true,
+      "atlas": [
+        5,
+        0
+      ]
+    },
+    {
+      "id": "road",
+      "name": "道路",
+      "def": 0,
+      "avo": 0,
+      "cost": 1,
+      "impassable": false,
+      "atlas": [
+        6,
+        0
+      ]
+    }
   ]
 }
