@@ -85,6 +85,16 @@ func _is_unlocked(n: Dictionary) -> bool:
 	for c in u.get("requires_clear", []):
 		if not Campaign.is_cleared(c):
 			return false
+	# requires_any_clear：满足任一已通关即可（用于分支汇合）
+	var any_clear: Array = u.get("requires_any_clear", [])
+	if not any_clear.is_empty():
+		var any_ok := false
+		for c in any_clear:
+			if Campaign.is_cleared(c):
+				any_ok = true
+				break
+		if not any_ok:
+			return false
 	for c in u.get("requires_character", []):
 		if not Campaign.owns_char(c):
 			return false

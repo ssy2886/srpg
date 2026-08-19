@@ -79,8 +79,13 @@ func _init_battle(map_id: String) -> void:
 	objective = map.get("objective", {})
 	_support_unlocks = []
 
-	# 铺地形（无 TileSet 时跳过渲染，逻辑仍可运行）
-	if tile_map != null and tile_map.tile_set != null:
+	# 整图背景（方案A）：地图 JSON 指定 bg_image 时用整图铺满，TileMap 不再画彩色方块。
+	var bg_img: String = map.get("bg_image", "")
+	if bg_img != "":
+		_setup_bg_image(bg_img)
+
+	# 铺地形（无背景图时用程序化 TileSet 画彩色方块；有背景图时 TileMap 留空，仅作逻辑层）
+	if bg_img == "" and tile_map != null and tile_map.tile_set != null:
 		for y in terrain_grid.size():
 			for x in terrain_grid[y].size():
 				var t: Dictionary = DataManager.get_terrain(terrain_grid[y][x])
@@ -1067,6 +1072,38 @@ func _show_floater(pos: Vector2, text: String, color: Color) -> void:
 	tw.tween_callback(lbl.queue_free)
 
 # ---------- 地形 TileSet（程序化生成，无需外部美术资源） ----------
+## 整图背景：把 bg_image 铺满整个地图区域（mw*tile_size × mh*tile_size），置于最底层。
+## 网格、移动/攻击范围高亮（_draw）、单位均叠加在其上；地形逻辑仍走 terrain_grid。
+var _bg_sprite: Sprite2D = null
+func _setup_bg_image(path: String) -> void:
+	if _bg_sprite != null and is_instance_valid(_bg_sprite):
+		_bg_sprite.queue_free()
+	var tex := _load_image_tex(path)
+	if tex == null:
+		push_warning("BattleController: 背景图加载失败 " + path)
+		return
+	_bg_sprite = Sprite2D.new()
+	_bg_sprite.texture = tex
+	_bg_sprite.centered = false
+	_bg_sprite.z_index = -20   # 在 TileMap(-10) 之下，最底
+	var mw: int = terrain_grid[0].size() if terrain_grid.size() > 0 else 10
+	var mh: int = terrain_grid.size()
+	var target := Vector2(mw * tile_size, mh * tile_size)
+	_bg_sprite.scale = Vector2(target.x / tex.get_width(), target.y / tex.get_height())
+	add_child(_bg_sprite)
+
+## 直接读图片文件为纹理（绕过 .import 依赖，避免无导入时卡死）。
+func _load_image_tex(path: String) -> Texture2D:
+	if not FileAccess.file_exists(path):
+		return null
+	var r = load(path)
+	if r != null:
+		return r
+	var img := Image.new()
+	if img.load(path) != OK:
+		return null
+	return ImageTexture.create_from_image(img)
+
 ## 遍历 DataManager.terrain，按 atlas 坐标绘制一张图集 Image，构建 TileSet。
 ## 每种地形一个 64x64 图块：纯色底 + 简单图案（森林树点/山顶尖/城垛/砖缝/水波）。
 func _build_tileset() -> TileSet:

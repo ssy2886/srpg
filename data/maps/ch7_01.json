@@ -1,0 +1,233 @@
+{
+  "_comment": "第七章 · 摄政王的书信。整图背景见 assets/maps/ch7_01.jpg(待生成);grid 按主题布局。",
+  "id": "ch7_01",
+  "name": "第七章 · 摄政王的书信",
+  "width": 12,
+  "height": 9,
+  "grid": [
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "mountain",
+      "forest",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "forest",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "forest",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "forest",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ],
+    [
+      "plain",
+      "plain",
+      "plain",
+      "road",
+      "forest",
+      "mountain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain",
+      "plain"
+    ]
+  ],
+  "units": [
+    {
+      "char_id": "lyra",
+      "team": "player",
+      "pos": [
+        1,
+        7
+      ],
+      "lv": 1
+    },
+    {
+      "char_id": "garrett",
+      "team": "player",
+      "pos": [
+        1,
+        6
+      ],
+      "lv": 1
+    },
+    {
+      "char_id": "mira",
+      "team": "player",
+      "pos": [
+        2,
+        7
+      ],
+      "lv": 1
+    },
+    {
+      "char_id": "seraphina",
+      "team": "player",
+      "pos": [
+        2,
+        6
+      ],
+      "lv": 1
+    },
+    {
+      "char_id": "rook",
+      "team": "player",
+      "pos": [
+        1,
+        8
+      ],
+      "lv": 1
+    },
+    {
+      "char_id": "enemy_01",
+      "team": "enemy",
+      "pos": [
+        10,
+        1
+      ],
+      "lv": 6,
+      "class": "brigand",
+      "weapon": "iron_axe"
+    },
+    {
+      "char_id": "enemy_02",
+      "team": "enemy",
+      "pos": [
+        10,
+        2
+      ],
+      "lv": 6,
+      "class": "archer",
+      "weapon": "short_bow"
+    },
+    {
+      "char_id": "enemy_03",
+      "team": "enemy",
+      "pos": [
+        9,
+        1
+      ],
+      "lv": 6,
+      "class": "mercenary",
+      "weapon": "iron_sword"
+    },
+    {
+      "char_id": "enemy_04",
+      "team": "enemy",
+      "pos": [
+        10,
+        3
+      ],
+      "lv": 6,
+      "class": "mage",
+      "weapon": "fire_tome"
+    }
+  ],
+  "objective": {
+    "type": "rout",
+    "description": "击败所有敌人"
+  },
+  "reward": {
+    "flag": "ch7_01_done"
+  }
+}

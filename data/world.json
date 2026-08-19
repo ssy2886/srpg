@@ -1,5 +1,5 @@
 {
-  "_comment": "大地图节点定义（圣魔之光石式）。每个 node：id/name/type(main|side)/pos[列x,行y]/map_id/unlock(显露条件)/reward_hint(UI提示)。实际通关奖励写在对应地图 JSON 的 reward 字段，由 BattleController 胜利时应用。",
+  "_comment": "大地图节点定义（圣魔之光石式）。每个 node：id/name/type(main|side)/pos[列x,行y]/map_id/unlock(显露条件)/reward_hint(UI提示)。实际通关奖励写在对应地图 JSON 的 reward 字段，由 BattleController 胜利时应用。 ch6~终章节点线性解锁：ch6 在任一 ch1 分支通关后开放，之后逐章解锁。",
   "id": "chapter_1",
   "title": "第一章 · 边境的狼烟",
   "nodes": [
@@ -7,7 +7,10 @@
       "id": "prologue_01",
       "name": "序章 · 逃亡之夜",
       "type": "main",
-      "pos": [1, 4],
+      "pos": [
+        1,
+        4
+      ],
       "map_id": "prologue_01",
       "unlock": {}
     },
@@ -15,53 +18,462 @@
       "id": "ch1_01",
       "name": "第一章 · 断桥阻击",
       "type": "main",
-      "pos": [6, 4],
+      "pos": [
+        6,
+        4
+      ],
       "map_id": "ch1_01",
-      "unlock": { "requires_clear": ["prologue_01"] }
+      "unlock": {
+        "requires_clear": [
+          "prologue_01"
+        ]
+      }
     },
     {
       "id": "ch1_crossroads",
       "name": "抉择 · 三岔口",
       "type": "story",
-      "pos": [4, 3],
+      "pos": [
+        4,
+        3
+      ],
       "decision": "ch1_crossroads",
-      "unlock": { "requires_clear": ["ch1_01"] }
+      "unlock": {
+        "requires_clear": [
+          "ch1_01"
+        ]
+      }
     },
     {
       "id": "ch1_frost",
       "name": "分支 · 霜峰伏击",
       "type": "main",
-      "pos": [7, 1],
+      "pos": [
+        7,
+        1
+      ],
       "map_id": "ch1_frost",
-      "unlock": { "requires_flag": ["path_frost"], "forbid_flag": ["path_valley"] },
+      "unlock": {
+        "requires_flag": [
+          "path_frost"
+        ],
+        "forbid_flag": [
+          "path_valley"
+        ]
+      },
       "reward_hint": "霜峰速达·精锐伏兵"
     },
     {
       "id": "ch1_valley",
       "name": "分支 · 河谷遭遇",
       "type": "main",
-      "pos": [4, 6],
+      "pos": [
+        4,
+        6
+      ],
       "map_id": "ch1_valley",
-      "unlock": { "requires_flag": ["path_valley"], "forbid_flag": ["path_frost"] },
+      "unlock": {
+        "requires_flag": [
+          "path_valley"
+        ],
+        "forbid_flag": [
+          "path_frost"
+        ]
+      },
       "reward_hint": "河谷迂回·稳妥补给"
     },
     {
       "id": "side_ruins",
       "name": "支线 · 古战场遗迹",
       "type": "side",
-      "pos": [1, 1],
+      "pos": [
+        1,
+        1
+      ],
       "map_id": "side_ruins",
-      "unlock": { "requires_clear": ["prologue_01"] },
+      "unlock": {
+        "requires_clear": [
+          "prologue_01"
+        ]
+      },
       "reward_hint": "通关可得强力英雄"
     },
     {
       "id": "side_shrine",
       "name": "支线 · 月神神殿",
       "type": "side",
-      "pos": [8, 6],
+      "pos": [
+        8,
+        6
+      ],
       "map_id": "side_shrine",
-      "unlock": { "requires_character": ["seraphina"] },
+      "unlock": {
+        "requires_character": [
+          "seraphina"
+        ]
+      },
       "reward_hint": "通关可得终极转职道具"
+    },
+    {
+      "id": "ch6_01",
+      "name": "第六章 · 流亡者营地",
+      "type": "main",
+      "pos": [
+        8,
+        1
+      ],
+      "map_id": "ch6_01",
+      "unlock": {
+        "requires_any_clear": [
+          "ch1_frost",
+          "ch1_valley"
+        ]
+      }
+    },
+    {
+      "id": "ch7_01",
+      "name": "第七章 · 摄政王的书信",
+      "type": "main",
+      "pos": [
+        6,
+        1
+      ],
+      "map_id": "ch7_01",
+      "unlock": {
+        "requires_clear": [
+          "ch6_01"
+        ]
+      }
+    },
+    {
+      "id": "ch8_01",
+      "name": "第八章 · 米拉的师父",
+      "type": "main",
+      "pos": [
+        4,
+        1
+      ],
+      "map_id": "ch8_01",
+      "unlock": {
+        "requires_clear": [
+          "ch7_01"
+        ]
+      }
+    },
+    {
+      "id": "ch9_01",
+      "name": "第九章 · 第一次攻城",
+      "type": "main",
+      "pos": [
+        2,
+        1
+      ],
+      "map_id": "ch9_01",
+      "unlock": {
+        "requires_clear": [
+          "ch8_01"
+        ]
+      }
+    },
+    {
+      "id": "ch10_01",
+      "name": "第十章 · 塞拉菲娜的刺青",
+      "type": "main",
+      "pos": [
+        1,
+        2
+      ],
+      "map_id": "ch10_01",
+      "unlock": {
+        "requires_clear": [
+          "ch9_01"
+        ]
+      }
+    },
+    {
+      "id": "ch11_01",
+      "name": "第十一章 · 真假王血",
+      "type": "main",
+      "pos": [
+        1,
+        4
+      ],
+      "map_id": "ch11_01",
+      "unlock": {
+        "requires_clear": [
+          "ch10_01"
+        ]
+      }
+    },
+    {
+      "id": "ch12_01",
+      "name": "第十二章 · 卡西安的牢狱",
+      "type": "main",
+      "pos": [
+        2,
+        5
+      ],
+      "map_id": "ch12_01",
+      "unlock": {
+        "requires_clear": [
+          "ch11_01"
+        ]
+      }
+    },
+    {
+      "id": "ch13_01",
+      "name": "第十三章 · 伯父的女儿",
+      "type": "main",
+      "pos": [
+        4,
+        5
+      ],
+      "map_id": "ch13_01",
+      "unlock": {
+        "requires_clear": [
+          "ch12_01"
+        ]
+      }
+    },
+    {
+      "id": "ch14_01",
+      "name": "第十四章 · 圣典失页",
+      "type": "main",
+      "pos": [
+        6,
+        5
+      ],
+      "map_id": "ch14_01",
+      "unlock": {
+        "requires_clear": [
+          "ch13_01"
+        ]
+      }
+    },
+    {
+      "id": "ch15_01",
+      "name": "第十五章 · 奥伯龙的过去",
+      "type": "main",
+      "pos": [
+        8,
+        5
+      ],
+      "map_id": "ch15_01",
+      "unlock": {
+        "requires_clear": [
+          "ch14_01"
+        ]
+      }
+    },
+    {
+      "id": "ch16_01",
+      "name": "第十六章 · 地脉枯竭",
+      "type": "main",
+      "pos": [
+        9,
+        6
+      ],
+      "map_id": "ch16_01",
+      "unlock": {
+        "requires_clear": [
+          "ch15_01"
+        ]
+      }
+    },
+    {
+      "id": "ch17_01",
+      "name": "第十七章 · 加勒特的债",
+      "type": "main",
+      "pos": [
+        8,
+        7
+      ],
+      "map_id": "ch17_01",
+      "unlock": {
+        "requires_clear": [
+          "ch16_01"
+        ]
+      }
+    },
+    {
+      "id": "ch18_01",
+      "name": "第十八章 · 荒芜之地",
+      "type": "main",
+      "pos": [
+        6,
+        7
+      ],
+      "map_id": "ch18_01",
+      "unlock": {
+        "requires_clear": [
+          "ch17_01"
+        ]
+      }
+    },
+    {
+      "id": "ch19_01",
+      "name": "第十九章 · 分裂",
+      "type": "main",
+      "pos": [
+        4,
+        7
+      ],
+      "map_id": "ch19_01",
+      "unlock": {
+        "requires_clear": [
+          "ch18_01"
+        ]
+      }
+    },
+    {
+      "id": "ch20_01",
+      "name": "第二十章 · 第三条路",
+      "type": "main",
+      "pos": [
+        2,
+        7
+      ],
+      "map_id": "ch20_01",
+      "unlock": {
+        "requires_clear": [
+          "ch19_01"
+        ]
+      }
+    },
+    {
+      "id": "ch21_01",
+      "name": "第二十一章 · 黑曜会的邀请",
+      "type": "main",
+      "pos": [
+        1,
+        6
+      ],
+      "map_id": "ch21_01",
+      "unlock": {
+        "requires_clear": [
+          "ch20_01"
+        ]
+      }
+    },
+    {
+      "id": "ch22_01",
+      "name": "第二十二章 · 卡西安之死",
+      "type": "main",
+      "pos": [
+        2,
+        4
+      ],
+      "map_id": "ch22_01",
+      "unlock": {
+        "requires_clear": [
+          "ch21_01"
+        ]
+      }
+    },
+    {
+      "id": "ch23_01",
+      "name": "第二十三章 · 塞拉菲娜的选择",
+      "type": "main",
+      "pos": [
+        3,
+        3
+      ],
+      "map_id": "ch23_01",
+      "unlock": {
+        "requires_clear": [
+          "ch22_01"
+        ]
+      }
+    },
+    {
+      "id": "ch24_01",
+      "name": "第二十四章 · 兵临晨曦城",
+      "type": "main",
+      "pos": [
+        5,
+        3
+      ],
+      "map_id": "ch24_01",
+      "unlock": {
+        "requires_clear": [
+          "ch23_01"
+        ]
+      }
+    },
+    {
+      "id": "ch25_01",
+      "name": "第二十五章 · 旧王宫",
+      "type": "main",
+      "pos": [
+        7,
+        3
+      ],
+      "map_id": "ch25_01",
+      "unlock": {
+        "requires_clear": [
+          "ch24_01"
+        ]
+      }
+    },
+    {
+      "id": "ch26_01",
+      "name": "第二十六章 · 奥伯龙的祭坛",
+      "type": "main",
+      "pos": [
+        8,
+        4
+      ],
+      "map_id": "ch26_01",
+      "unlock": {
+        "requires_clear": [
+          "ch25_01"
+        ]
+      }
+    },
+    {
+      "id": "ch27_01",
+      "name": "第二十七章 · 月与火",
+      "type": "main",
+      "pos": [
+        7,
+        6
+      ],
+      "map_id": "ch27_01",
+      "unlock": {
+        "requires_clear": [
+          "ch26_01"
+        ]
+      }
+    },
+    {
+      "id": "ch28_01",
+      "name": "第二十八章 · 奥伯龙的终局",
+      "type": "main",
+      "pos": [
+        5,
+        6
+      ],
+      "map_id": "ch28_01",
+      "unlock": {
+        "requires_clear": [
+          "ch27_01"
+        ]
+      }
+    },
+    {
+      "id": "ch29_01",
+      "name": "终章 · 晨曦重燃",
+      "type": "main",
+      "pos": [
+        3,
+        6
+      ],
+      "map_id": "ch29_01",
+      "unlock": {
+        "requires_clear": [
+          "ch28_01"
+        ]
+      }
     }
   ]
 }
