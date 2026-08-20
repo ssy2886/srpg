@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="剑与魔法战旗"
-run/main_scene="res://scenes/TitleScreen.tscn"
+run/main_scene="res://scenes/Battle.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
 [autoload]

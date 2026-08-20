@@ -237,16 +237,19 @@ func _roll_one_levelup() -> Dictionary:
 			gains[key] = int(gains.get(key, 0)) + 1
 	return gains
 
-## 获得经验，自动连升多级（封顶 MAX_LEVEL）。返回升了几级。
+## 获得经验，自动连升多级（封顶 MAX_LEVEL）。返回升了几级；levelup_gains 记录各级属性增量供 UI 展示。
+var levelup_gains: Array = []   # 最近升级的属性增量 [{stat->增量}, ...]
 func gain_exp(amount: int) -> int:
 	if team != "player":
 		return 0
 	exp += int(amount)
 	var gained := 0
+	levelup_gains = []
 	while exp >= DataManager.EXP_PER_LEVEL and lvl < DataManager.MAX_LEVEL:
 		exp -= DataManager.EXP_PER_LEVEL
 		lvl += 1
-		_roll_one_levelup()
+		var g: Dictionary = _roll_one_levelup()
+		levelup_gains.append(g)
 		gained += 1
 	if lvl >= DataManager.MAX_LEVEL:
 		exp = 0
@@ -255,9 +258,20 @@ func gain_exp(amount: int) -> int:
 	var hp_gain := new_max - max_hp
 	if hp_gain > 0:
 		hp += hp_gain
-	max_hp = new_max
+		max_hp = new_max
 	refresh_label()
 	return gained
+
+## 各属性的成长率（职业成长率 + 角色个人修正），供信息面板显示。
+func growth_rates() -> Dictionary:
+	var cls: Dictionary = DataManager.get_class_data(class_id)
+	var growth: Dictionary = cls.get("growth_rates", {})
+	var char: Dictionary = DataManager.get_character(char_id)
+	var mod: Dictionary = char.get("growth_modifier", {})
+	var out: Dictionary = {}
+	for key in growth.keys():
+		out[key] = int(growth[key]) + int(mod.get(key, 0))
+	return out
 
 ## 武器熟练度经验：累计后按阈值刷新等级 letter。
 func gain_weapon_exp(wtype: String, amount: int) -> void:

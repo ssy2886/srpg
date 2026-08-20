@@ -460,9 +460,73 @@ func _grant_combat_exp(att: Unit, def: Unit, res: Dictionary) -> void:
 		att.gain_weapon_exp(wtype, wexp)
 	if lv_gained > 0:
 		_show_floater(att.position, "升级! Lv%d" % att.lvl, Color(1, 1, 0.3))
+		_show_levelup_panel(att)   # 弹出属性提升面板，展示哪些属性增加了
 	elif res.hit:
 		_show_floater(att.position, "EXP+%d" % uexp, Color(0.8, 0.9, 1.0))
 	_show_exp_bar(att, uexp, killed)
+
+## 升级属性提升面板：列出本次升级哪些属性 +N，居中弹出后自动消失。
+func _show_levelup_panel(u: Unit) -> void:
+	if u == null or u.levelup_gains.is_empty():
+		return
+	# 合并多级升级的增量
+	var total: Dictionary = {}
+	for g in u.levelup_gains:
+		for k in g.keys():
+			total[k] = int(total.get(k, 0)) + int(g[k])
+	# 构造面板
+	var panel := PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0.06, 0.08, 0.16, 0.95)
+	sb.border_color = Color(1.0, 0.85, 0.4)
+	sb.set_border_width_all(2)
+	sb.set_corner_radius_all(10)
+	sb.content_margin_left = 24; sb.content_margin_right = 24
+	sb.content_margin_top = 16; sb.content_margin_bottom = 16
+	panel.add_theme_stylebox_override("panel", sb)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 6)
+	panel.add_child(vb)
+	var title := Label.new()
+	title.text = "⬆ %s 升级到 Lv%d" % [u.display_name, u.lvl]
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 22)
+	title.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5))
+	vb.add_child(title)
+	# 属性名映射
+	var names := {"hp":"HP","str":"力量","mag":"魔力","skl":"技巧","spd":"速度",
+		"lck":"幸运","def":"防御","res":"魔防","con":"体格","move":"移动"}
+	var order := ["hp","str","mag","skl","spd","lck","def","res"]
+	var any := false
+	for k in order:
+		var inc: int = int(total.get(k, 0))
+		if inc <= 0:
+			continue
+		any = true
+		var row := Label.new()
+		row.text = "%s  +%d  →  %d" % [names.get(k, k), inc, int(u.stats.get(k, 0))]
+		row.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		row.add_theme_font_size_override("font_size", 18)
+		row.add_theme_color_override("font_color", Color(0.6, 1.0, 0.6))
+		vb.add_child(row)
+	if not any:
+		var row := Label.new()
+		row.text = "（本次未提升属性）"
+		row.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		row.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+		vb.add_child(row)
+	# 居中放置，淡入后停留再淡出
+	add_child(panel)
+	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	var vp := get_viewport_rect().size
+	panel.position = Vector2(vp.x / 2 - 130, vp.y / 2 - 120)
+	panel.modulate.a = 0.0
+	panel.z_index = 50
+	var tw := create_tween()
+	tw.tween_property(panel, "modulate:a", 1.0, 0.2)
+	tw.tween_interval(1.6)
+	tw.tween_property(panel, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(panel.queue_free)
 
 ## 在单位头顶显示经验条：底槽 + 填充（当前 exp/100）+ 获得量标签，动画后消失。
 func _show_exp_bar(u: Unit, gained: int, killed: bool) -> void:
@@ -875,10 +939,17 @@ func _unit_stat_text(u: Unit) -> String:
 	var out: Array = []
 	out.append("%s  (Lv%d)" % [u.display_name, u.lvl])
 	out.append("职业：%s" % cls.get("name", u.class_id))
-	out.append("HP  %d / %d" % [u.hp, u.max_hp])
+	out.append("HP  %d / %d    EXP %d / %d" % [u.hp, u.max_hp, u.exp, DataManager.EXP_PER_LEVEL])
 	out.append("力 %2d   魔 %2d   技 %2d" % [int(s.get("str", 0)), int(s.get("mag", 0)), int(s.get("skl", 0))])
 	out.append("速 %2d   幸 %2d   防 %2d" % [int(s.get("spd", 0)), int(s.get("lck", 0)), int(s.get("def", 0))])
 	out.append("魔防 %2d  体格 %2d  移动 %2d" % [int(s.get("res", 0)), int(s.get("con", 0)), int(s.get("move", 0))])
+	# 成长率（属性升级概率，含个人修正）
+	var gr: Dictionary = u.growth_rates()
+	if not gr.is_empty():
+		out.append("成长：HP%d%% 力%d%% 魔%d%% 技%d%%" % [
+			int(gr.get("hp", 0)), int(gr.get("str", 0)), int(gr.get("mag", 0)), int(gr.get("skl", 0))])
+		out.append("　　　速%d%% 幸%d%% 防%d%% 抗%d%%" % [
+			int(gr.get("spd", 0)), int(gr.get("lck", 0)), int(gr.get("def", 0)), int(gr.get("res", 0))])
 	var w: Dictionary = DataManager.get_weapon(u.equipped_weapon)
 	out.append("武器：%s" % (w.get("name", "—") if not w.is_empty() else "—"))
 	var wr := "武器等级："
