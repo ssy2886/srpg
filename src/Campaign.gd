@@ -21,6 +21,8 @@ var current_map_id: String = ""     # WorldMap 进入战斗前设置，Battle �
 
 # ---- Phase 6：永久死亡 + 角色进度持久化 ----
 var permadeath: bool = false        # 永久死亡开关（标题界面可切换）
+# 战斗动画模式：0=全开(每次攻击都弹特写) 1=仅特写(仅暴击/击杀时弹) 2=关闭(不弹特写,地图内快速结算)
+var battle_anim: int = 0
 var roster: Dictionary = {}         # char_id -> 进度字典（lvl/exp/stats/武器/职业/道具）
                                     # 是角色养成的"权威存档"，跨战斗保留；permadeath 下阵亡即抹除。
 
@@ -79,6 +81,7 @@ func serialize() -> Dictionary:
 func deserialize(d: Dictionary) -> void:
 	reset()
 	permadeath = bool(d.get("permadeath", false))
+	battle_anim = int(d.get("battle_anim", 0))
 	cleared_maps = d.get("cleared_maps", {})
 	owned_chars = d.get("owned_chars", {})
 	owned_items = d.get("owned_items", {})

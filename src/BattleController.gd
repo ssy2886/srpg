@@ -288,6 +288,28 @@ func _do_attack(att: Unit, def: Unit) -> void:
 	if steps.is_empty():
 		return
 	att.pending_ignore_def = 0.0
+	# 战斗动画模式：0全开 / 1仅暴击或击杀 / 2关闭。
+	var mode: int = Campaign.battle_anim
+	var show_scene := true
+	if mode == 2:
+		show_scene = false
+	elif mode == 1:
+		show_scene = false
+		for st in steps:
+			if st.get("crit", false) or st.get("killed", false):
+				show_scene = true
+				break
+	if not show_scene:
+		# 地图内快速结算：不弹特写，依次应用并短暂演出。
+		for st in steps:
+			_apply_map_hit_fx(st)
+			_apply_strike_result(st.attacker, st.defender, st)
+			await get_tree().create_timer(0.18).timeout
+		_update_stat_panel()
+		_check_phase_end()
+		combat_scene_done.emit()
+		await combat_scene_done
+		return
 	# 弹全屏战斗特写：每次命中落地回调应用结算，全部演完回地图。
 	var on_hit := func(step_index: int) -> void:
 		var st: Dictionary = steps[step_index]
@@ -298,6 +320,21 @@ func _do_attack(att: Unit, def: Unit) -> void:
 		combat_scene_done.emit()
 	BattleScene.play(att, def, steps, on_hit, on_done)
 	await combat_scene_done   # 等待特写播完（敌方 AI 需逐个行动不叠加）
+
+## 地图内快速命中表现（不弹特写时）：伤害浮标 + 攻击/受击小动画。
+func _apply_map_hit_fx(st: Dictionary) -> void:
+	var A: Unit = st.attacker
+	var D: Unit = st.defender
+	if not is_instance_valid(A) or not is_instance_valid(D):
+		return
+	if st.get("hit", false):
+		var txt: String = ("暴击 %d" % int(st.damage)) if st.get("crit", false) else str(int(st.damage))
+		_show_floater(D.position, txt, Color(1, 0.3, 0.3))
+		A.play_anim("attack")
+		if D.hp - int(st.damage) > 0:
+			D.play_anim("hurt")
+	else:
+		_show_floater(D.position, "MISS", Color(0.9, 0.9, 0.9))
 
 ## 预演算战斗序列，返回步骤数组 [{attacker, defender, hit, damage, crit, miss, killed}]。
 ## 掷骰在 Combat.resolve 内完成；用临时 HP 副本推演进/亡，不改真实单位。
@@ -497,6 +534,8 @@ func _toggle_system_menu() -> void:
 	_sys_menu = PopupMenu.new()
 	_sys_menu.add_item("结束回合", 0)
 	_sys_menu.add_item("保存进度", 1)
+	var anim_names := ["战斗动画：全开", "战斗动画：仅特写", "战斗动画：关闭"]
+	_sys_menu.add_item(anim_names[Campaign.battle_anim], 5)
 	_sys_menu.add_item("中断（回大地图）", 2)
 	_sys_menu.add_item("返回主界面", 3)
 	_sys_menu.add_separator()
@@ -532,6 +571,11 @@ func _on_system_menu_picked(id: int) -> void:
 			get_tree().change_scene_to_file("res://scenes/TitleScreen.tscn")
 		4:  # 取消
 			pass
+		5:  # 切换战斗动画模式：0全开 → 1仅特写 → 2关闭 → 循环
+			Campaign.battle_anim = (Campaign.battle_anim + 1) % 3
+			var anim_names := ["全开", "仅特写(暴击/击杀)", "关闭"]
+			_show_banner("战斗动画：%s" % anim_names[Campaign.battle_anim], Color(0.6, 0.9, 0.6), true)
+			SaveManager.save(Campaign.serialize())
 
 # ---------- 行动菜单（移动到达后弹出：攻击/待命/道具） ----------
 func _close_action_menu() -> void:
