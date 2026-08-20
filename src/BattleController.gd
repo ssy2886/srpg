@@ -8,6 +8,7 @@ const SkillManager = preload("res://src/SkillManager.gd")
 const WeaponTriIcon = preload("res://src/WeaponTriIcon.gd")
 const Unit = preload("res://src/Unit.gd")
 const StoryDialog = preload("res://src/StoryDialog.gd")
+const BattleScene = preload("res://src/BattleScene.gd")
 
 ## BattleController —— Phase 1 外层驱动：回合循环、点击选择、移动/攻击、敌方 AI、伤害浮字。
 ## 用法：建 Node2D 场景挂本脚本；放一个 TileMapLayer 子节点，检查器里把 tile_map 指向它、
@@ -276,33 +277,74 @@ func _show_attack_range(u: Unit) -> void:
 
 ## 完整战斗序列（火纹标准）：主攻 → 反击（若存活且射程够）→ 双方按速度差追加追击。
 ## 速度 spd 比对方高 4 点及以上 → 该方攻击后再追击一次（连击）。
+## 先预演算每一步（掷骰存结果），弹全屏战斗特写演出；每次命中落地时回调真实结算。
 const FOLLOWUP_SPD_DIFF := 4
 
+signal combat_scene_done   # 战斗特写播放完毕
+
 func _do_attack(att: Unit, def: Unit) -> void:
-	# 1) 主攻
-	_single_strike(att, def)
-	if att == null or def == null or not is_instance_valid(def) or not is_instance_valid(att):
+	# 预演算战斗步骤（掷骰但不改真实 HP）。
+	var steps: Array = _simulate_combat(att, def)
+	if steps.is_empty():
 		return
-	# 消费 armor_pierce（仅生效一次）
 	att.pending_ignore_def = 0.0
-	if def.hp <= 0:
-		return
-	# 2) 反击：防守方存活且武器射程覆盖距离
+	# 弹全屏战斗特写：每次命中落地回调应用结算，全部演完回地图。
+	var on_hit := func(step_index: int) -> void:
+		var st: Dictionary = steps[step_index]
+		_apply_strike_result(st.attacker, st.defender, st)
+	var on_done := func() -> void:
+		_update_stat_panel()
+		_check_phase_end()
+		combat_scene_done.emit()
+	BattleScene.play(att, def, steps, on_hit, on_done)
+	await combat_scene_done   # 等待特写播完（敌方 AI 需逐个行动不叠加）
+
+## 预演算战斗序列，返回步骤数组 [{attacker, defender, hit, damage, crit, miss, killed}]。
+## 掷骰在 Combat.resolve 内完成；用临时 HP 副本推演进/亡，不改真实单位。
+func _simulate_combat(att: Unit, def: Unit) -> Array:
+	var steps: Array = []
+	if att == null or def == null:
+		return steps
+	var a_hp: int = att.hp
+	var d_hp: int = def.hp
+	var seq: Array = []   # [attacker, defender] 出手顺序
+	seq.append([att, def])
+	# 反击
 	if _can_counter(def, att):
-		_single_strike(def, att)
-		if not is_instance_valid(att) or not is_instance_valid(def):
-			return
-		if att.hp <= 0:
-			return
-	# 3) 追击：速度差 >= FOLLOWUP_SPD_DIFF 的一方追加攻击
+		seq.append([def, att])
+	# 追击
 	var a_spd: int = int(att.stats.get("spd", 0))
 	var d_spd: int = int(def.stats.get("spd", 0))
-	if a_spd - d_spd >= FOLLOWUP_SPD_DIFF and def.hp > 0:
-		_show_floater(att.position, "追击!", Color(0.5, 0.9, 1.0))
-		_single_strike(att, def)
-	elif d_spd - a_spd >= FOLLOWUP_SPD_DIFF and att.hp > 0 and _can_counter(def, att):
-		_show_floater(def.position, "追击!", Color(1.0, 0.7, 0.4))
-		_single_strike(def, att)
+	if a_spd - d_spd >= FOLLOWUP_SPD_DIFF:
+		seq.append([att, def])
+	elif d_spd - a_spd >= FOLLOWUP_SPD_DIFF and _can_counter(def, att):
+		seq.append([def, att])
+	for pair in seq:
+		var A: Unit = pair[0]
+		var D: Unit = pair[1]
+		if a_hp <= 0 or d_hp <= 0:
+			break
+		var res: Dictionary = _resolve_attack(A, D)
+		if res.get("empty", false):
+			continue
+		var step := {
+			"attacker": A, "defender": D,
+			"hit": res.hit, "crit": res.get("crit", false),
+			"damage": res.damage, "res": res
+		}
+		if res.hit:
+			if A == att:
+				d_hp -= res.damage
+				step["killed"] = d_hp <= 0
+			else:
+				a_hp -= res.damage
+				step["killed"] = a_hp <= 0
+		else:
+			step["miss"] = true
+		steps.append(step)
+	return steps
+
+## 单次攻击判定与结算（含演出/经验/护盾/死亡处理）。
 
 ## 防守方是否能反击（武器射程覆盖距离）。
 func _can_counter(defender: Unit, attacker: Unit) -> bool:
@@ -315,11 +357,11 @@ func _can_counter(defender: Unit, attacker: Unit) -> bool:
 	var dist: int = abs(defender.grid_pos.x - attacker.grid_pos.x) + abs(defender.grid_pos.y - attacker.grid_pos.y)
 	return dist >= int(rng[0]) and dist <= int(rng[1])
 
-## 单次攻击判定与结算（含演出/经验/护盾/死亡处理）。
-func _single_strike(att: Unit, def: Unit) -> void:
+## 用预演算好的 res 结算单次攻击（不再掷骰）：扣血/护盾/死亡/经验/地图浮标。
+## 战斗特写命中落地时回调此方法；res 来自 _simulate_combat（掷骰结果已确定）。
+func _apply_strike_result(att: Unit, def: Unit, res: Dictionary) -> void:
 	if att == null or def == null or not is_instance_valid(att) or not is_instance_valid(def):
 		return
-	var res: Dictionary = _resolve_attack(att, def)
 	if res.get("empty", false):
 		return
 	if res.hit:
@@ -329,13 +371,26 @@ func _single_strike(att: Unit, def: Unit) -> void:
 			def.shield -= absorbed
 			dealt -= absorbed
 		def.hp -= dealt
-		var txt: String = "%d" % dealt
-		if res.crit:
-			txt = "暴击 %d" % res.damage
-		_show_floater(def.position, txt, Color(1, 0.3, 0.3))
 		def.refresh_label()
 		if def.hp <= 0:
 			_kill_unit(def)
+	# 养成结算：仅我方获得经验与武器熟练度
+	if att.team == "player":
+		_grant_combat_exp(att, def, res)
+	_update_stat_panel()
+
+## 单次攻击判定与结算（含演出/经验/护盾/死亡处理）。敌方 AI 等不播特写时使用。
+func _single_strike(att: Unit, def: Unit) -> void:
+	if att == null or def == null or not is_instance_valid(att) or not is_instance_valid(def):
+		return
+	var res: Dictionary = _resolve_attack(att, def)
+	if res.get("empty", false):
+		return
+	if res.hit:
+		var txt: String = "%d" % res.damage
+		if res.crit:
+			txt = "暴击 %d" % res.damage
+		_show_floater(def.position, txt, Color(1, 0.3, 0.3))
 	else:
 		_show_floater(def.position, "MISS", Color(0.9, 0.9, 0.9))
 	# 演出：攻击者挥击，命中且未死者受击
@@ -343,10 +398,7 @@ func _single_strike(att: Unit, def: Unit) -> void:
 		att.play_anim("attack")
 		if is_instance_valid(def) and def.hp > 0:
 			def.play_anim("hurt")
-	# 养成结算：仅我方获得经验与武器熟练度
-	if att.team == "player":
-		_grant_combat_exp(att, def, res)
-	_update_stat_panel()
+	_apply_strike_result(att, def, res)
 
 ## 击杀处理：移除占用/单位列表/释放，检查战斗结束。
 func _kill_unit(u: Unit) -> void:
@@ -542,7 +594,7 @@ func _on_item_picked(u: Unit, id: int) -> void:
 func _pick_weapon_and_attack(att: Unit, def: Unit) -> void:
 	var usable: Array = att.usable_weapons()
 	if usable.size() <= 1:
-		_do_attack(att, def)
+		await _do_attack(att, def)
 		_end_unit_action(att)
 		return
 	_close_action_menu()
@@ -564,7 +616,7 @@ func _on_weapon_picked(att: Unit, def: Unit, wid: String) -> void:
 	_close_action_menu()
 	att.equipped_weapon = wid
 	_show_banner("装备：%s" % DataManager.get_weapon(wid).get("name", wid), Color(0.9, 0.85, 0.5), true)
-	_do_attack(att, def)
+	await _do_attack(att, def)
 	_end_unit_action(att)
 	move_cells = []
 	attack_cells_list = []
@@ -662,13 +714,11 @@ func _enemy_act(u: Unit) -> void:
 		u.grid_pos = best_cell
 		occupied[best_cell] = u
 		await _tween_along_path(u, path)
-	# 攻击（播放攻击动画，再做伤害结算）
+	# 攻击（弹战斗特写，演出与结算；不再单独 play_anim，特写已含演出）
 	if not w.is_empty():
 		var dist: int = abs(u.grid_pos.x - target.grid_pos.x) + abs(u.grid_pos.y - target.grid_pos.y)
 		if dist >= int(rng[0]) and dist <= int(rng[1]):
-			u.play_anim("attack")
-			await get_tree().create_timer(0.35).timeout   # 等攻击动作挥出
-			_do_attack(u, target)
+			await _do_attack(u, target)
 	u.acted = true
 
 ## 让单位沿 path（Array[Vector2i]）逐格移动，呈现行走轨迹。
