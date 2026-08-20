@@ -34,6 +34,7 @@ var title_label: Label
 var class_label: Label
 var rank_label: Label
 var stat_label: Label
+var growth_label: Label
 var weapon_label: Label
 var skill_label: Label
 var bg_label: Label
@@ -100,9 +101,12 @@ func _build_static_ui() -> void:
 	rank_label.add_theme_color_override("font_color", Color(0.9, 0.85, 0.5)); detail.add_child(rank_label)
 	stat_label = Label.new(); stat_label.position = Vector2(180, 112); stat_label.size = Vector2(detail.size.x-180, 56)
 	stat_label.add_theme_color_override("font_color", Color(0.85, 0.9, 1.0)); detail.add_child(stat_label)
-	weapon_label = Label.new(); weapon_label.position = Vector2(180, 176); weapon_label.size = Vector2(detail.size.x-180, 24)
+	growth_label = Label.new(); growth_label.position = Vector2(180, 170); growth_label.size = Vector2(detail.size.x-180, 40)
+	growth_label.add_theme_font_size_override("font_size", 14)
+	growth_label.add_theme_color_override("font_color", Color(0.7, 0.9, 0.7)); detail.add_child(growth_label)
+	weapon_label = Label.new(); weapon_label.position = Vector2(180, 212); weapon_label.size = Vector2(detail.size.x-180, 24)
 	weapon_label.add_theme_color_override("font_color", Color(0.8, 0.8, 0.95)); detail.add_child(weapon_label)
-	skill_label = Label.new(); skill_label.position = Vector2(180, 206); skill_label.size = Vector2(detail.size.x-180, 150)
+	skill_label = Label.new(); skill_label.position = Vector2(180, 240); skill_label.size = Vector2(detail.size.x-180, 120)
 	skill_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	skill_label.add_theme_color_override("font_color", Color(0.85, 0.95, 0.85)); detail.add_child(skill_label)
 	bg_label = Label.new(); bg_label.position = Vector2(0, 372); bg_label.size = Vector2(detail.size.x, 110)
@@ -184,6 +188,24 @@ func _show_detail(id: String) -> void:
 		else:
 			line2 += cell + "    "
 	stat_label.text = line1 + "\n" + line2
+
+	# ---- 成长率（属性升级概率 = 职业成长 + 个人修正） ----
+	var growth: Dictionary = cls.get("growth_rates", {})
+	var gmod: Dictionary = ch.get("growth_modifier", {})
+	var gline1 := "成长："
+	var gline2 := "　　　"
+	var gi := 0
+	for key in STAT_ORDER:
+		if not growth.has(key):
+			continue
+		var g: int = int(growth.get(key, 0)) + int(gmod.get(key, 0))
+		var cell := "%s%d%%  " % [STAT_NAME.get(key, key), g]
+		if gi < 5:
+			gline1 += cell
+		else:
+			gline2 += cell
+		gi += 1
+	growth_label.text = gline1 + "\n" + gline2
 
 	# ---- 武器等级 ----
 	var wr_text := "武器等级："
@@ -361,6 +383,7 @@ func _show_item_detail(idx: int) -> void:
 	class_label.text = ""
 	rank_label.text = ""
 	stat_label.text = ""
+	growth_label.text = ""
 	weapon_label.text = ""
 	skill_label.text = ""
 	bg_label.text = it.get("desc", "")
@@ -380,6 +403,7 @@ func _clear_detail() -> void:
 	class_label.text = ""
 	rank_label.text = ""
 	stat_label.text = ""
+	growth_label.text = ""
 	weapon_label.text = ""
 	skill_label.text = ""
 	bg_label.text = ""
